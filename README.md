@@ -18,7 +18,21 @@
 
 一个**浏览器直接打开就能用**的雅思口语 Part 2 练习工具。专为 2026 年 5-8 月题库打造。
 
-核心理念：**一个故事，多题复用** — 用有限的个人素材应对海量题卡，配合 AI 润色帮你打磨出 7 分以上水平的回答。
+核心理念：**一个故事，多题复用** — 用有限的个人素材应对海量题卡，配合 AI 润色帮你打磨出 7 分水平的回答。
+
+## 预览
+
+**主界面：左侧目录 + 题卡 + 考官 + 计时 + AI润色**
+
+<img src="images/screenshot-overview.png" alt="主界面概览" width="80%">
+
+**44 个素材学习区：完整口语模板 + 好词好句 + 词汇表 + 四维评分**
+
+<img src="images/screenshot-stories.png" alt="素材学习区" width="80%">
+
+**自定义素材 + AI 润色：输入中文 → Gemini/DeepSeek → 7分英文故事**
+
+<img src="images/screenshot-ai-polish.png" alt="AI润色演示" width="50%">
 
 ## 为什么用它
 
