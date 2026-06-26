@@ -24,15 +24,15 @@
 
 **主界面：左侧目录 + 题卡 + 考官 + 计时 + AI润色**
 
-<img src="images/screenshot-overview.png" alt="主界面概览" width="80%">
+<img src="ielts-speaking/images/screenshot-overview.png" alt="主界面概览" width="80%">
 
 **44 个素材学习区：完整口语模板 + 好词好句 + 词汇表 + 四维评分**
 
-<img src="images/screenshot-stories.png" alt="素材学习区" width="80%">
+<img src="ielts-speaking/images/screenshot-stories.png" alt="素材学习区" width="80%">
 
 **自定义素材 + AI 润色：输入中文 → Gemini/DeepSeek → 7分英文故事**
 
-<img src="images/screenshot-ai-polish.png" alt="AI润色演示" width="50%">
+<img src="ielts-speaking/images/screenshot-ai-polish.png" alt="AI润色演示" width="50%">
 
 ## 为什么用它
 
