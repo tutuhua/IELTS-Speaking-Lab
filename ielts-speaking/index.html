@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Speaking Part 2 — 练习助手</title>
+<style>
+:root {
+  --bg: #f5f3ef;
+  --card: #ffffff;
+  --text: #1a1a1a;
+  --muted: #6b6b6b;
+  --accent: #1e6e5c;
+  --accent-light: #e8f4f0;
+  --danger: #c53030;
+  --danger-light: #fff5f5;
+  --border: #e2e0dc;
+  --shadow: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --radius: 10px;
+}
+
+* { box-sizing:border-box; margin:0; padding:0 }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* Layout */
+header {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+header h1 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+header .sub { font-size: 12px; color: #999; margin-left: 10px; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 20px 24px; }
+
+/* Category Tabs */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.tab {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--muted);
+  border: none;
+  background: none;
+  transition: .15s;
+  border-right: 1px solid var(--border);
+}
+.tab:last-child { border-right: none }
+.tab:hover { background: var(--accent-light); color: var(--accent) }
+.tab.active { background: var(--accent); color: #fff; }
+.tab .count { font-size: 11px; opacity: .7; display: block; }
+
+/* Main Grid */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+}
+@media (max-width: 860px) {
+  .main-grid { grid-template-columns: 1fr; }
+}
+
+/* Card */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+.card-placeholder {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+}
+.card-placeholder .icon { font-size: 48px; margin-bottom: 12px; opacity: .4; }
+
+.cue-topic {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.cue-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+  font-weight: 600;
+}
+.tag-new { background: #e8f4f0; color: var(--accent) }
+.tag-old { background: #f0f0f0; color: var(--muted) }
+
+.cue-bullets {
+  margin-top: 20px;
+  padding-left: 0;
+  list-style: none;
+}
+.cue-bullets li {
+  padding: 8px 0 8px 24px;
+  position: relative;
+  font-size: 15px;
+  color: #333;
+}
+.cue-bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: .5;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .15s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { filter: brightness(1.1); }
+.btn-outline { background: none; border: 1.5px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-block { width: 100%; justify-content: center; }
+
+.btn-row { display: flex; gap: 10px; margin-top: 20px; }
+
+/* Timer */
+.timer-section { text-align: center; margin-bottom: 16px; }
+.timer-display {
+  font-size: 56px;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+  color: var(--text);
+}
+.timer-display.warning { color: var(--danger); }
+.timer-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; }
+.timer-controls { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+
+/* Progress bar */
+.progress-wrap { height: 4px; background: var(--border); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+.progress-bar { height: 100%; background: var(--accent); transition: width .3s linear; border-radius: 2px; }
+.progress-bar.warning { background: var(--danger); }
+
+/* Story mapping */
+.story-item {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: .15s;
+}
+.story-item:hover { border-color: var(--accent); background: var(--accent-light) }
+.story-item .story-title { font-weight: 600; font-size: 13px; }
+.story-item .story-phrases { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.story-item.recommended { border-color: var(--accent); border-width: 2px; background: #fafff9; }
+.story-item.recommended::before { content: '⭐ 最佳匹配'; font-size: 10px; color: var(--accent); font-weight: 700; }
+
+/* Notes */
+.notes-area {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  resize: vertical;
+  font-family: inherit;
+}
+.notes-area:focus { outline: none; border-color: var(--accent); }
+
+/* Story Library Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: .2s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-content {
+  background: var(--card);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 640px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.15);
+}
+.modal-close {
+  float: right;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* Section titles */
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+/* Feedback Panel */
+.feedback-panel { margin-top: 20px; }
+.fb-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 16px; }
+.fb-tab {
+  padding: 10px 18px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: .15s;
+}
+.fb-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.fb-tab-content { display: none; }
+.fb-tab-content.active { display: block; }
+
+/* Model Answer */
+.model-answer {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333;
+  white-space: pre-wrap;
+}
+
+/* Expression cards */
+.expr-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.expr-card {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.expr-colloc { background: #e8f4f0; color: #1e6e5c; }
+.expr-vocab { background: #fef3c7; color: #92400e; }
+.expr-linker { background: #e0e7ff; color: #3730a3; }
+.expr-grammar { background: #fce7f3; color: #9d174d; }
+
+/* Criteria table */
+.criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 8px;
+}
+@media (max-width: 700px) { .criteria-grid { grid-template-columns: repeat(2, 1fr); } }
+.criteria-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  text-align: center;
+}
+.criteria-score {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.criteria-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 4px;
+}
+.criteria-note { font-size: 12px; color: #555; margin-top: 6px; text-align: left; }
+
+/* Compare textarea */
+.compare-area {
+  width: 100%;
+  min-height: 140px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  margin-top: 8px;
+}
+.compare-area:focus { outline: none; border-color: var(--accent); }
+
+/* No model answer state */
+.no-model {
+  text-align: center;
+  padding: 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+
+/* History list */
+.history-list { max-height: 400px; overflow-y: auto; }
+.history-item {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: .15s;
+}
+.history-item:hover { border-color: var(--accent); background: var(--accent-light); }
+.history-item .hi-date { font-size: 11px; color: var(--muted); }
+.history-item .hi-topic { font-size: 13px; font-weight: 600; }
+.history-item .hi-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.history-detail { display: none; margin-top: 10px; }
+.history-detail.open { display: block; }
+.history-transcript {
+  background: #f8f8f8;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: pre-wrap;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+/* Add story form */
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: 8px 10px;
+  border: 1px solid var(--border); border-radius: 6px;
+  font-size: 13px; font-family: inherit;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  outline: none; border-color: var(--accent);
+}
+.form-group textarea { min-height: 60px; resize: vertical; }
+.custom-story-item {
+  border-left: 3px solid #f59e0b;
+  position: relative;
+}
+.custom-story-item .del-story {
+  position: absolute; top: 8px; right: 8px;
+  background: none; border: none; font-size: 14px; cursor: pointer; color: var(--muted);
+}
+.custom-story-item .del-story:hover { color: var(--danger); }
+
+/* AI Polish */
+.ai-section { margin-top: 12px; }
+.ai-textarea {
+  width: 100%; min-height: 80px; padding: 10px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 13px; font-family: inherit; resize: vertical;
+}
+.ai-textarea:focus { outline: none; border-color: var(--accent); }
+.ai-result {
+  margin-top: 8px; padding: 12px; background: #f8f8f8; border-radius: 8px;
+  font-size: 13px; white-space: pre-wrap; max-height: 300px; overflow-y: auto;
+  display: none;
+}
+.ai-result.open { display: block; }
+.settings-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.settings-row label { font-size: 12px; font-weight: 600; color: var(--muted); min-width: 80px; }
+.settings-row input, .settings-row select {
+  flex: 1; padding: 6px 10px; border: 1px solid var(--border);
+  border-radius: 6px; font-size: 13px; font-family: inherit;
+}
+.settings-row input:focus, .settings-row select:focus { outline: none; border-color: var(--accent); }
+.spinner {
+  display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite;
+  vertical-align: middle; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+
+/* Story Showcase */
+.story-showcase { margin-top: 40px; }
+.story-showcase h2 { font-size: 20px; margin-bottom: 16px; }
+.showcase-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.showcase-tab {
+  padding: 8px 20px; border: 1px solid var(--border); border-radius: 20px;
+  font-size: 13px; background: var(--card); cursor: pointer; transition: .15s;
+}
+.showcase-tab:hover { border-color: var(--accent); }
+.showcase-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.story-card {
+  border: 1px solid var(--border); border-radius: 12px; padding: 20px;
+  margin-bottom: 16px; background: var(--card); cursor: pointer; transition: .15s;
+}
+.story-card:hover { border-color: var(--accent); }
+.story-card-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.story-card-title { font-size: 16px; font-weight: 700; flex: 1; }
+.story-card-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.story-card-badge {
+  font-size: 11px; padding: 3px 10px; border-radius: 4px; white-space: nowrap;
+  font-weight: 600;
+}
+.badge-people { background: #e3f2fd; color: #1565c0; }
+.badge-object { background: #fff3e0; color: #e65100; }
+.badge-event { background: #f3e5f5; color: #7b1fa2; }
+.badge-place { background: #e8f5e9; color: #2e7d32; }
+.story-card-summary { font-size: 13px; color: #555; margin-top: 8px; }
+.story-card-body { display: none; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
+.story-card.expanded .story-card-body { display: block; }
+.story-template {
+  background: #f8f9fa; border-radius: 8px; padding: 16px; font-size: 14px;
+  line-height: 1.8; white-space: pre-wrap; margin-bottom: 16px;
+  border-left: 3px solid var(--accent);
+}
+.phrases-box { margin-bottom: 16px; }
+.phrases-box .label { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
+.phrase-tag {
+  display: inline-block; padding: 4px 10px; margin: 2px; background: #fef3c7;
+  color: #92400e; border-radius: 12px; font-size: 12px;
+}
+.vocab-box { margin-bottom: 16px; }
+.vocab-box .label { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
+.vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 6px; }
+.vocab-item { font-size: 13px; padding: 4px 8px; background: #f0f4ff; border-radius: 4px; }
+.vocab-item .en { font-weight: 600; color: #1e40af; }
+.vocab-item .cn { color: #555; margin-left: 4px; }
+.scoring-box { margin-bottom: 16px; }
+.scoring-box .label { font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; }
+.scoring-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+@media (max-width: 700px) { .scoring-grid { grid-template-columns: repeat(2, 1fr); } }
+.scoring-item {
+  border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center;
+  background: #fafafa;
+}
+.scoring-item .dim { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+.scoring-item .score { font-size: 24px; font-weight: 700; color: var(--accent); }
+.scoring-item .detail { font-size: 11px; color: #555; margin-top: 6px; text-align: left; line-height: 1.5; }
+
+
+/* Left Sidebar (fixed) */
+.sidebar-fixed {
+  position: fixed; left: 0; top: 0; height: 100vh; z-index: 100;
+  width: 260px; background: var(--card); border-right: 1px solid var(--border);
+  border-radius: 0; overflow-y: auto; overflow-x: hidden; transition: transform .25s;
+}
+.sidebar-fixed.collapsed { transform: translateX(-224px); }
+.sidebar-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 36px; cursor: pointer; user-select: none; font-size: 13px;
+  color: var(--muted); transition: .15s; padding: 0 12px;
+}
+.sidebar-toggle:hover { color: var(--accent); background: var(--accent-light); }
+.sidebar-content { padding: 0 12px 12px; }
+
+/* body shifts when sidebar is open */
+body { padding-left: 284px; transition: padding-left .25s; }
+body.sidebar-closed { padding-left: 36px; }
+
+@media (max-width: 860px) {
+  .sidebar-fixed { width: 220px; }
+  .sidebar-fixed.collapsed { transform: translateX(-184px); }
+  body { padding-left: 244px; }
+  body.sidebar-closed { padding-left: 36px; }
+}
+.dir-filters { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+.dir-filter {
+  padding: 3px 10px; border: 1px solid var(--border); border-radius: 12px;
+  font-size: 10px; cursor: pointer; background: #fafafa; transition: .15s;
+}
+.dir-filter:hover { border-color: var(--accent); }
+.dir-filter.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.dir-group-title {
+  font-size: 11px; font-weight: 700; color: var(--accent); padding: 6px 4px 3px;
+  border-bottom: 1px solid var(--border); margin-bottom: 2px; margin-top: 10px;
+}
+.dir-group-title:first-child { margin-top: 0; }
+.dir-item {
+  display: block; padding: 5px 6px; border-radius: 4px; cursor: pointer;
+  font-size: 12px; transition: .1s; border-bottom: 1px solid #f0f0f0;
+}
+.dir-item:hover { background: var(--accent-light); }
+.dir-item .tag {
+  display: inline-block; font-size: 9px; padding: 1px 5px; border-radius: 2px;
+  font-weight: 600; white-space: nowrap; margin-right: 3px; vertical-align: middle;
+}
+.dir-item-cn { font-size: 12px; line-height: 1.3; }
+.dir-item-en { font-size: 10px; color: var(--muted); line-height: 1.3; margin-top: 1px; }
+.tag-new { background: #dcfce7; color: #166534; }
+.tag-old { background: #f0f0f0; color: #666; }
+.tag-people { background: #e3f2fd; color: #1565c0; }
+.tag-object { background: #fff3e0; color: #e65100; }
+.tag-event { background: #f3e5f5; color: #7b1fa2; }
+.tag-place { background: #e8f5e9; color: #2e7d32; }
+@media (max-width: 860px) {
+  .sidebar { width: 220px; }
+  .sidebar.collapsed { width: 32px; }
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <span style="font-size:17px;font-weight:700;">IELTS Speaking Part 2</span>
+    <span class="sub">2026年5-8月题库 · 55题</span>
+  </div>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button class="btn btn-outline btn-sm" onclick="openSettings()" style="color:#fff;border-color:#555;">⚙️</button>
+    <button class="btn btn-outline btn-sm" onclick="openStoryLibrary()" style="color:#fff;border-color:#555;">📖 我的素材库</button>
+  </div>
+</header>
+
+<!-- Fixed Sidebar -->
+  <div class="sidebar-fixed" id="dirSidebar">
+    <div class="sidebar-toggle" onclick="toggleSidebar()" title="展开/收起题库目录"><span>📋 题库</span><span id="sidebarToggleIcon">◀</span></div>
+    <div class="sidebar-content">
+      <div class="dir-filters" id="dirFilters">
+        <button class="dir-filter active" data-df="all">全部</button>
+        <button class="dir-filter" data-df="new">新题</button>
+        <button class="dir-filter" data-df="old">旧题</button>
+        <button class="dir-filter" data-df="people">人物</button>
+        <button class="dir-filter" data-df="object">事物</button>
+        <button class="dir-filter" data-df="event">事件</button>
+        <button class="dir-filter" data-df="place">地点</button>
+      </div>
+      <div id="dirList"></div>
+    </div>
+  </div>
+<div class="container">
+  <!-- Tabs -->
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-cat="all">全部<span class="count">55题</span></button>
+    <button class="tab" data-cat="people">人物<span class="count">13题</span></button>
+    <button class="tab" data-cat="object">事物<span class="count">15题</span></button>
+    <button class="tab" data-cat="event">事件<span class="count">19题</span></button>
+    <button class="tab" data-cat="place">地点<span class="count">8题</span></button>
+  </div>
+
+  <div class="main-grid">
+    <!-- Row 1 Left: Cue Card -->
+    <div class="card" id="cueCard">
+      <div class="card-placeholder" id="placeholder">
+        <div class="icon">🎯</div>
+        <p style="font-size:16px;font-weight:600;margin-bottom:4px;">点击抽题开始练习</p>
+        <p style="font-size:13px;color:var(--muted);">抽题后会有 1 分钟准备 + 2 分钟作答计时</p>
+        <button class="btn btn-primary" style="margin-top:16px;" onclick="drawCard()">🎲 随机抽题</button>
+      </div>
+      <div id="cueContent" style="display:none;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="cue-tag" id="cueTag"></span>
+          <span style="font-size:12px;color:var(--muted);" id="cueCat"></span>
+        </div>
+        <div class="cue-topic" id="cueTopic"></div>
+        <ul class="cue-bullets" id="cueBullets"></ul>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="drawCard()">🎲 再抽一题</button>
+          <button class="btn btn-outline btn-sm" onclick="startPrep()" id="btnPrep">⏱ 开始准备 (1:00)</button>
+          <button class="btn btn-outline btn-sm" onclick="startSpeaking()" id="btnSpeak" style="display:none;">🎤 开始作答 (2:00)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 1 Right: Examiner -->
+    <div class="card" style="padding:12px;text-align:center;display:flex;flex-direction:column;">
+      <div id="examinerAvatar" style="flex:1;border-radius:8px;overflow:hidden;min-height:0;"></div>
+      <div id="examinerName" style="font-size:14px;font-weight:700;"></div>
+      <div id="examinerTitle" style="font-size:10px;color:var(--muted);"></div>
+    </div>
+
+    <!-- Row 2 Left: Notes -->
+    <div class="card" style="padding:16px;">
+      <div class="section-title">📝 准备笔记</div>
+      <textarea class="notes-area" id="notes" placeholder="记下关键词和想法..."></textarea>
+    </div>
+
+    <!-- Row 2 Right: Timer + AI Polish -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <!-- Timer -->
+      <div class="card" style="padding:20px;">
+        <div class="timer-section">
+          <div class="timer-label" id="timerLabel">准备计时</div>
+          <div class="timer-display" id="timerDisplay">1:00</div>
+          <div class="progress-wrap"><div class="progress-bar" id="progressBar" style="width:100%;"></div></div>
+          <div class="timer-controls">
+            <button class="btn btn-sm btn-outline" onclick="startPrep()">准备 1:00</button>
+            <button class="btn btn-sm btn-outline" onclick="startSpeaking()">作答 2:00</button>
+            <button class="btn btn-sm btn-outline" onclick="stopTimer()">停止</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Polish -->
+      <div class="card" style="padding:16px;">
+        <div class="section-title">✨ AI 润色 (7分故事)</div>
+        <p style="font-size:11px;color:var(--muted);margin-bottom:8px;">用中文写你的回答，AI 帮你改成 ~170词 7分英文故事</p>
+        <textarea class="ai-textarea" id="aiInput" placeholder="例如：我想讲一次去西藏旅游的经历，路上遇到了..." style="margin-bottom:6px;"></textarea>
+        <button class="btn btn-primary btn-sm btn-block" onclick="polishText()" id="btnPolish">✨ 润色为英文故事</button>
+        <button class="btn btn-outline btn-sm btn-block" onclick="savePolishedStory()" id="btnSavePolished" style="display:none;margin-top:6px;">💾 保存为素材</button>
+        <div class="ai-result" id="aiResult"></div>
+        <p style="font-size:10px;color:var(--muted);margin-top:4px;text-align:center;">需要 ⚙️ 设置 API Key</p>
+      </div>
+    </div>
+</div>
+
+  <!-- Story Showcase -->
+  <div class="story-showcase" id="storyShowcase">
+    <h2>📚 素材学习区</h2>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+      全部 44 个口语素材，含完整模板、好词好句、四维评分。点击卡片展开查看详情。
+    </p>
+    <div class="showcase-tabs" id="showcaseTabs">
+      <button class="showcase-tab active" data-cat="all">全部</button>
+      <button class="showcase-tab" data-cat="people">👤 人物</button>
+      <button class="showcase-tab" data-cat="object">📦 事物</button>
+      <button class="showcase-tab" data-cat="event">🎯 事件</button>
+      <button class="showcase-tab" data-cat="place">📍 地点</button>
+    </div>
+    <div id="showcaseList"></div>
+  </div>
+
+  <!-- Feedback Panel -->
+  <div class="feedback-panel card" id="feedbackPanel" style="display:none;padding:24px;">
+    <div class="fb-tabs">
+      <button class="fb-tab active" data-fb="history">📋 练习记录</button>
+    </div>
+
+    <!-- History -->
+    <div class="fb-tab-content active" id="fb-history">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span style="font-size:12px;color:var(--muted);">练习记录自动保存</span>
+        <button class="btn btn-outline btn-sm" onclick="clearHistory()">清空记录</button>
+      </div>
+      <div class="history-list" id="historyList">
+        <p style="font-size:13px;color:var(--muted);text-align:center;padding:20px;">暂无练习记录</p>
+      </div>
+      <div class="history-detail" id="historyDetail"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsOverlay" onclick="closeSettings(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeSettings()">✕</button>
+    <h3 style="margin-bottom:16px;">⚙️ AI 润色设置</h3>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">使用 Gemini 或 DeepSeek API 润色你的故事。API Key 仅保存在你的浏览器中。</p>
+    <div class="settings-row">
+      <label>AI 服务</label>
+      <select id="aiProvider" onchange="saveSettings()">
+        <option value="gemini">Google Gemini (免费 1500次/天)</option>
+        <option value="deepseek">DeepSeek</option>
+      </select>
+    </div>
+    <div class="settings-row">
+      <label>API Key</label>
+      <input id="aiKey" type="password" placeholder="粘贴你的 API Key" onchange="saveSettings()">
+    </div>
+    <div style="font-size:11px;color:var(--muted);margin-top:8px;padding:8px;background:#f8f8f8;border-radius:6px;">
+      <strong>如何获取免费 Key？</strong><br>
+      Gemini: 访问 <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>，点击 Create API Key<br>
+      DeepSeek: 访问 <a href="https://platform.deepseek.com/api_keys" target="_blank">platform.deepseek.com/api_keys</a>
+    </div>
+  </div>
+</div>
+
+<!-- Story Library Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeStoryLibrary(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeStoryLibrary()">✕</button>
+    <h3 style="margin-bottom:16px;" id="storyLibTitle">📖 我的故事素材库</h3>
+    <div id="storyList"></div>
+    <div style="margin-top:16px;text-align:center;">
+      <button class="btn btn-primary btn-sm" onclick="openAddStoryModal()">➕ 添加素材</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Story Modal -->
+<div class="modal-overlay" id="addStoryOverlay" onclick="closeAddStoryModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeAddStoryModal()">✕</button>
+    <h3 style="margin-bottom:16px;" id="addStoryTitle">➕ 添加新素材</h3>
+    <div class="form-group">
+      <label>分类</label>
+      <select id="asCategory">
+        <option value="people">人物</option>
+        <option value="object">事物</option>
+        <option value="event">事件</option>
+        <option value="place">地点</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>中文标题</label>
+      <input id="asTitleCn" placeholder="例如：在北京迷路被帮助的经历">
+    </div>
+    <div class="form-group">
+      <label>英文标题</label>
+      <input id="asTitleEn" placeholder="例如：Got lost in Beijing, a stranger helped me">
+    </div>
+    <div class="form-group">
+      <label>内容摘要（2-3句话概括）</label>
+      <textarea id="asSummary" placeholder="简要描述发生了什么..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>地道关键词（逗号分隔）</label>
+      <input id="asPhrases" placeholder="例如：went out of my way, a sense of relief, pluck up courage">
+    </div>
+    <div class="form-group">
+      <label>重点词汇（格式：word1:释义1, word2:释义2）</label>
+      <input id="asVocab" placeholder="例如：altitude sickness:高原反应, itinerary:行程">
+    </div>
+    <input type="hidden" id="asEditId" value="">
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn btn-outline btn-sm" onclick="closeAddStoryModal()">取消</button>
+      <button class="btn btn-primary btn-sm" id="asDeleteBtn" style="display:none;background:var(--danger);" onclick="deleteCustomStory()">删除</button>
+      <button class="btn btn-primary btn-sm" onclick="saveCustomStory()">保存素材</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ STORIES DATA ============
+const stories = [
+  {
+    id: "story_1",
+    category: "people",
+    title_cn: "一位乐于助人的好友",
+    title_en: "A supportive friend",
+    summary: "认识多年的好友，性格互补、三观一致。在学业压力大情绪低落时一直鼓励我，是可以深度交流的挚友。",
+    template: "I'd like to talk about one of my closest friends, someone who genuinely goes out of her way to support the people around her. We've known each other for several years now, and I can honestly say she's one of the most reliable people I've ever met. What makes her special is that she doesn't just offer words of comfort — she takes action. I remember one time when I was going through a particularly stressful period with my studies. I felt overwhelmed and wasn't sure I could handle everything. Instead of just telling me 'it'll be fine', she sat down with me, helped me break down my tasks into manageable steps, and checked in on me regularly. She has this rare ability to make you feel supported without making you feel like a burden. Even now, though we're busy in different cities, we still make time for regular deep talks. Her complementary personality and unwavering support have genuinely shaped who I am today.",
+    key_phrases: ["deep talk", "have each other's back", "complementary personalities", "share the same values", "go through ups and downs together", "go out of her way", "make you feel like a burden"],
+    vocab: { "complementary": "互补的", "have someone's back": "支持某人", "uplifting": "令人振奋的", "unwavering": "坚定不移的" },
+    scoring: { fc: "7 | 结构完整：人物介绍→具体事例→品质总结→个人影响，自然过渡词 what makes her special / even now", lr: "7 | 地道搭配 go out of her way / have each other's back / deep talks，unwavering / complementary 精准形容词", gra: "7 | 关系从句 who genuinely...、时间状语从句 when I was...、not just...but...强调结构", p: "注意 complementary / genuinely / unwavering 重音" }
+  },
+  {
+    id: "story_2",
+    category: "event",
+    title_cn: "旅行中生病被朋友照顾",
+    title_en: "Got sick during a trip, a friend took care of me",
+    summary: "和好友去外地旅行。一天因水土不服半夜腹泻加头晕，好友立刻拿出备好的药、查医院电话咨询，之后修改行程安排，让我们安全开心地度完假期。",
+    template: "I'm going to talk about a time when someone really helped me out of a difficult situation. This happened during a trip I took with my best friend. One night, I came down with a bad case of food poisoning combined with dizziness. I felt absolutely dreadful and honestly a bit scared because we were in an unfamiliar place. What really impressed me was how my friend handled everything. Without any panic, she pulled out the emergency medication she had packed beforehand. Then she called a local clinic to get professional advice over the phone. Throughout the night, she kept checking on me and making sure I stayed hydrated. The next morning, she took the initiative to revise our entire itinerary. She replaced some physically demanding activities with gentler options, which made the rest of the trip so much more enjoyable and safe. Looking back, that experience actually brought us closer. It made me realise that when someone truly has your back, even a difficult situation can become a story you look back on with gratitude.",
+    key_phrases: ["went out of her way to help", "felt reassured", "modified the itinerary", "prepared emergency medicine", "came down with", "on top of that", "truly has your back"],
+    vocab: { "go out of one's way": "不辞辛苦地", "itinerary": "行程", "reassure": "使安心", "dreadful": "糟糕的", "hydrated": "补充水分" },
+    scoring: { fc: "7 | 叙事结构清晰：背景→事件→解决→反思，时间线索流畅 one night / the next morning / looking back", lr: "7 | came down with / take the initiative / have someone's back 地道短语，dreadful / hydrated 精准词汇", gra: "7 | 关系从句 which made the rest...、时间状语从句 when someone...、宾语从句 made me realise that...", p: "注意 itinerary / hydrated / dreadful 发音" }
+  },
+  {
+    id: "story_3",
+    category: "place",
+    title_cn: "社区公园",
+    title_en: "A community park near my home",
+    summary: "住处附近有个公园，每年春秋举办书市活动。有古建筑、树木和鸽子，在此读书让人感到平静惬意。",
+    template: "I'd like to talk about a community park near where I live, a place that holds a special spot in my daily life. It's not a famous tourist attraction by any means, but for me, it's a genuine escape from the noise and pressure of everyday life. The park has beautiful tree-lined paths, some traditional architecture, and lots of pigeons that visitors enjoy feeding. What I love most is the book fair they hold every spring and autumn. Local sellers set up stalls, and people gather to browse discounted books, exchange recommendations, and sometimes join reading discussions. There's a wonderful cultural atmosphere that you just don't get from shopping online. I go there regularly, especially when I need a break from studying. I'll find a quiet bench, read for a while, and just soak in the calm surroundings. It gives me a real sense of tranquility that's hard to find elsewhere. For me, this park isn't just a green space — it's a place where I can slow down and reconnect with myself.",
+    key_phrases: ["book fair", "ancient architecture", "a sense of tranquility", "tree-lined paths", "escape from daily pressure", "soak in the atmosphere", "slow down and reconnect"],
+    vocab: { "tranquility": "宁静", "book fair": "书市", "tree-lined": "绿树成荫的", "genuine": "真正的", "browse": "浏览" },
+    scoring: { fc: "7 | 空间描写→活动→个人感受，层次递进。not...by any means 自然转折，for me 总结个人化", lr: "7 | escape from pressure / soak in the atmosphere / sense of tranquility 地道搭配", gra: "7 | 定语从句 that holds a special spot / where I can slow down，比较结构 you just don't get from", p: "注意 tranquility / architecture / genuine 发音" }
+  },
+  {
+    id: "story_5",
+    category: "object",
+    title_cn: "AI 工具辅助学习与研究",
+    title_en: "Using AI tools for study and research",
+    summary: "作为学生常用 AI 工具辅助梳理零散思路、准备考试。AI 可以出题、充当对话练习伙伴，是日常学习的效率工具。",
+    template: "I'd like to talk about how I use AI tools to support my studies and research. As a university student, I often find myself with scattered thoughts after reading papers or attending lectures, and AI tools help me organize those ideas into a clear structure. One of the things I find most useful is exam preparation. I can ask the AI to generate practice questions based on my course materials and then check my answers against suggested responses. I also use it as a speaking partner for language practice. For example, I can describe a topic out loud, type in what I said, and ask it to point out where my logic is unclear or where my expressions could sound more natural. What I appreciate most is that it works like a brainstorming partner — it helps me think more clearly without replacing my own thinking. Of course, I don't rely on it blindly. I see it as a thinking aid, not a crutch. It's become an essential part of my daily workflow.",
+    key_phrases: ["brainstorm ideas", "exam preparation", "mock interviewer", "boost productivity", "organize scattered thoughts", "thinking aid", "daily workflow"],
+    vocab: { "brainstorm": "头脑风暴", "productivity": "效率", "scattered": "零散的", "crutch": "拐杖/依赖", "workflow": "工作流程" },
+    scoring: { fc: "7 | 功能介绍→使用场景→个人评价，逻辑自洽。what I appreciate most / of course 过渡自然", lr: "7 | brainstorming partner / thinking aid not a crutch / daily workflow 地道表达，scattered thoughts 精准搭配", gra: "7 | 宾语从句 point out where...、分词状语 typing in what I said、比较结构 without replacing...", p: "注意 brainstorm / crutch / workflow 发音" }
+  },
+  {
+    id: "story_6",
+    category: "object",
+    title_cn: "《新哲人》杂志",
+    title_en: "New Philosopher magazine",
+    summary: "一本聚焦生活细致观察的杂志。最喜欢关于旅行意义的一期——旅行不在于地点，而在心态和视角。",
+    template: "I'd like to talk about a magazine I recently started reading called New Philosopher. It's not an academic philosophy journal — instead, it focuses on thoughtful observations about everyday life. What drew me in was that each issue explores a single theme from different angles, using short essays written in accessible language. The issue that left the deepest impression on me was about the meaning of travel. One essay argued that travel isn't really about the destination — it's about your mindset. Even walking through familiar streets in your own city can feel like travelling if you approach it with curiosity and a fresh perspective. That idea really resonated with me because I'd always associated travel with going somewhere far away. The magazine is a collection of thought-provoking pieces, and I find it perfect for reading during short breaks. It's not heavy or academic, but every time I read it, I come away with a slightly different way of looking at something I'd taken for granted.",
+    key_phrases: ["philosophy in everyday life", "shift in perspective", "the meaning of travel", "thought-provoking", "a collection of essays", "fresh perspective", "taken for granted"],
+    vocab: { "thought-provoking": "引人深思的", "perspective": "视角", "accessible": "易懂的", "resonate": "引起共鸣", "curiosity": "好奇心" },
+    scoring: { fc: "7 | 介绍→核心内容→个人共鸣→总结，结构紧凑，it's not...instead 对比开篇有力", lr: "7 | thought-provoking / resonate with me / take for granted / come away with 地道短语", gra: "7 | 宾语从句 argued that...、条件句 even walking...can feel like...、比较 not...but...", p: "注意 philosopher / resonate / curiosity 发音" }
+  },
+  {
+    id: "story_7",
+    category: "event",
+    title_cn: "活动中帮助外国专家解决突发问题",
+    title_en: "Helping a foreign expert during an event",
+    summary: "参加交流活动时负责带外国专家参观。突下暴雨车迟迟不到，专家着急。我决定让他先休息，自己找当地人帮忙，最终化解危机还让专家分享了自己故事。",
+    template: "I'd like to talk about a time when I had to think on my feet and solve an unexpected problem. It happened during an event where I was responsible for accompanying a visiting foreign expert on a tour of local facilities. Everything was going smoothly until suddenly, a heavy rainstorm hit. The car we had arranged was delayed, and the expert, who valued punctuality highly, was becoming visibly frustrated. I could feel the tension building. So I made a quick decision. I suggested the expert wait in the hotel lobby where it was comfortable, and I went out to find a solution. I approached some local residents nearby and managed to arrange a ride for a reasonable fee. The rest of the day went surprisingly well. In fact, after the formal activities, I took the expert to a nearby scenic spot for a short walk, and he ended up sharing stories from his own childhood. He completely warmed up. Looking back, I think the key was staying calm and not giving up when the first plan fell through.",
+    key_phrases: ["think on my feet", "unexpected crisis", "win over someone", "turned the situation around", "stay calm under pressure", "fell through", "warmed up"],
+    vocab: { "think on one's feet": "随机应变", "win someone over": "赢得好感", "turn around": "扭转局面", "frustrated": "沮丧的", "punctuality": "守时" },
+    scoring: { fc: "7 | 完整叙事弧：背景→危机→解决→意外收获。smoothly until suddenly / in fact / looking back 过渡自然", lr: "7 | think on my feet / fell through / warmed up 俚语级搭配，visibly frustrated / tension building 精准描述", gra: "7 | 关系从句 who valued punctuality、过去进行 was becoming、条件句 if the first plan...", p: "注意 punctuality / frustrated / approached 发音" }
+  },
+  {
+    id: "story_8",
+    category: "event",
+    title_cn: "在剧院帮外国人翻译",
+    title_en: "Helped a foreigner translate at a theatre",
+    summary: "去剧院看演出时帮一位外国观众翻译解决了票务问题，锻炼了英语交流的勇气，很有成就感。",
+    template: "I'd like to share a small but meaningful experience when I helped someone overcome a language barrier. It happened when I went to a theatre to watch a performance. While I was picking up my ticket, I noticed a foreign visitor at the counter next to me. He was trying to ask the staff something, but the staff member couldn't understand English, and the visitor was becoming increasingly confused. I could tell he was getting frustrated. After hesitating for a moment, I plucked up the courage to step in and offer to translate. It turned out he had bought a ticket for the following day's show, but he wanted to visit the theatre that day just to look around. So I explained the situation to the staff and helped him purchase a cheap sightseeing ticket instead. The relief on his face when everything was sorted out was genuinely rewarding. I walked away with a real sense of fulfillment — not just because I'd helped someone, but also because I'd pushed myself out of my comfort zone in using English in a real, unplanned situation.",
+    key_phrases: ["plucked up the courage", "language barrier", "went the extra mile", "a sense of fulfillment", "step out of my comfort zone", "sorted out", "walked away with"],
+    vocab: { "pluck up courage": "鼓起勇气", "language barrier": "语言障碍", "fulfillment": "成就感", "hesitate": "犹豫", "comfort zone": "舒适区" },
+    scoring: { fc: "7 | 场景导入→冲突→行动→结果→反思，完整叙事闭环。after hesitating / it turned out / not just...but also 递进自然", lr: "7 | pluck up courage / sort out / walk away with fulfillment / comfort zone 地道搭配", gra: "7 | 分词状语 while picking up...、宾语从句 noticed that...、not just because...but also because... 并列原因", p: "注意 pluck / fulfillment / genuinely 发音" }
+  },
+  {
+    id: "story_9",
+    category: "event",
+    title_cn: "给前辈发邮件长时间未回复",
+    title_en: "Emailed a senior professional, got a late reply",
+    summary: "交流活动后给一位前辈发邮件请教建议，很久未回复以为被忽略，突然收到详细回复——对方认真思考后才回复，被其严谨态度感染。",
+    template: "I'd like to talk about a time when I sent an email and didn't receive a reply for what felt like ages. After attending a professional event, I plucked up the courage to send a follow-up email to a senior professional whose work I really admired. In the email, I asked for some advice and recommended reading in my field of interest. A few days passed. Then a week. Then several weeks. I honestly thought my email had been overlooked or buried in their inbox, and I told myself not to take it personally since they were clearly very busy. Then one day, completely out of the blue, I received a detailed reply. The person had clearly taken time to think through my questions carefully and gave me thoughtful, specific suggestions. They explained they'd wanted to give a proper response rather than a rushed one. I was genuinely moved — not just by the reply itself, but by the attitude behind it. It made me realise that true professionalism isn't about being fast, but about being thorough. I hope one day I can pay it forward to someone starting out.",
+    key_phrases: ["follow-up email", "didn't hear back", "assumed he was too busy", "out of the blue", "a detailed response", "rigorous approach", "pay it forward"],
+    vocab: { "follow-up": "后续跟进", "out of the blue": "突然地", "rigorous": "严谨的", "pay it forward": "传递善意", "thorough": "彻底的" },
+    scoring: { fc: "7.5 | 时间线叙事→心理活动→转折→反思，情感弧线完整。A few days...Then a week...Then several weeks 节奏控制出色", lr: "7 | out of the blue / pay it forward / buried in inbox / pluck up courage 地道的不能再地道", gra: "7.5 | 过去完成时 had overlooked / 宾语从句 realise that... / not just...but...强调结构 / I hope one day I can... 未来愿景", p: "注意 thorough / genuinely / buried 发音" }
+  },
+  {
+    id: "story_10",
+    category: "people",
+    title_cn: "会多国语言的老师",
+    title_en: "A teacher who speaks multiple languages fluently",
+    summary: "认识一位在多国学习过的老师，能说多种语言。他的方法是对文化好奇，去菜市场超市和当地人聊天模仿表达。",
+    template: "I'd like to talk about someone I met who was incredibly good at learning languages. This person was a teacher I encountered during an exchange programme — he had studied and worked in several different countries. Out of curiosity, I once asked him how many languages he could speak, and he casually replied that he could speak several, all quite fluently. What really impressed me was not just the number, but his approach to learning. He told me that instead of just studying textbooks or memorising vocabulary lists, he would immerse himself in everyday situations. When he lived in a new country, he would go to local markets and supermarkets, strike up conversations with shopkeepers, bargain a little, and pay close attention to how local people actually spoke. Then he would mimic their expressions and intonation. His method made me rethink what language learning really means. For him, language wasn't an academic subject — it was a way to connect with people and understand different cultures. His dedication was genuinely inspiring, and it's something I try to apply to my own language learning now.",
+    key_phrases: ["out of curiosity", "strike up conversations", "pick up languages", "immerse oneself in", "mimic local expressions", "sheer dedication", "connect with people"],
+    vocab: { "strike up a conversation": "开启对话", "immerse oneself": "沉浸于", "mimic": "模仿", "intonation": "语调", "dedication": "投入" },
+    scoring: { fc: "7 | 人物导入→方法展开→反思启发。not just...but...对比，for him 视角转换自然", lr: "7.5 | strike up conversations / immerse oneself / mimic expressions / sheer dedication 地道搭配密集", gra: "7 | 条件句 when he lived...he would...、宾语从句 rethink what...、比较 rather than...", p: "注意 immerse / mimic / intonation / dedication 发音" }
+  },
+  {
+    id: "story_11",
+    category: "people",
+    title_cn: "高中同学立志从医",
+    title_en: "A high school classmate determined to work in medicine",
+    summary: "高中同学从小梦想当医生，经历疫情后更坚定选择公共卫生方向，希望为预防大规模传染病做贡献。",
+    template: "I'd like to talk about a high school classmate of mine who has always been determined to pursue a career in the medical field. Ever since I've known him, he's talked about becoming a doctor. But what I find particularly admirable is how his vision evolved over time. Initially, like many aspiring medical students, he imagined himself treating patients in a hospital. However, after witnessing the impact of the pandemic, his focus shifted towards preventive medicine and public health. He told me that he realised treating individual patients, while important, could only help so many people. By working in public health and disease prevention, he could potentially make a difference on a much larger scale. I was struck by how clearly he could articulate this — it wasn't just a vague ambition. He talked about the specific area of infectious disease control and how prevention is often more cost-effective than treatment. What moves me most is that he's not choosing this path for money or prestige, but out of a genuine sense of mission and social responsibility.",
+    key_phrases: ["lifelong dream", "medical profession", "preventive medicine", "large-scale infectious diseases", "sense of mission", "make a difference", "driven by a calling"],
+    vocab: { "preventive medicine": "预防医学", "infectious disease": "传染病", "sense of mission": "使命感", "articulate": "清晰表达", "aspiring": "有抱负的" },
+    scoring: { fc: "7.5 | 对比式展开：最初想法→事件转折→新方向→深层动机。however / while important / what moves me most 层层递进", lr: "7 | make a difference on a larger scale / sense of mission / preventive medicine / articulate 精准学术词汇", gra: "7.5 | 分词状语 while important, could only...、强调句 what I find admirable is...、比较 not...but...", p: "注意 preventive / articulate / admirable / infectious 发音" }
+  },
+  {
+    id: "story_12",
+    category: "people",
+    title_cn: "一位家人爱养花",
+    title_en: "A family member who loves growing flowers",
+    summary: "家里一位长辈非常喜欢养花，主要养玫瑰和绣球。用水培加营养液，花漂亮让心情愉悦，照顾花长大有满足感。",
+    template: "I'd like to talk about a family member of mine who is truly passionate about growing flowers at home. She mainly grows roses and hydrangeas, and she takes care of them almost every day. What I find interesting is her method — instead of just using regular soil, she often uses a water culture technique and adds nutrient solution to help the flowers grow better. She once told me that looking at flowers can instantly brighten her mood, and I can see why. The colours genuinely lift the atmosphere of the whole home. But what I admire most is her patience. Growing flowers isn't something you can rush. She checks the water, monitors the light, and removes fading flowers with incredible care. She often shares photos of the flowers with me, and I can feel how much joy she gets from watching them bloom. To her, it's not just a hobby — it's a way of nurturing life. I think growing plants reveals a lot about a person's character. In her case, it shows gentleness, patience, and the ability to find joy in small daily things.",
+    key_phrases: ["brighten up the home", "a sense of satisfaction", "nurture and care for", "nutrient solution", "set the mood", "watch them bloom", "find joy in small things"],
+    vocab: { "hydrangea": "绣球花", "nutrient solution": "营养液", "water culture": "水培", "bloom": "开花", "nurture": "培育" },
+    scoring: { fc: "7.5 | 人物→方法→深层品质，层层递进。not just...but...和 in her case 自然收束", lr: "7 | brighten the mood / lift the atmosphere / nurture life / find joy in small things 地道搭配", gra: "7 | 动名词主语 growing flowers isn't...、宾语从句 how much joy she gets、否定强调 not just a hobby", p: "注意 hydrangea / nutrient / nurture / atmosphere 发音" }
+  },
+  {
+    id: "story_13",
+    category: "place",
+    title_cn: "朋友的迷你公寓",
+    title_en: "A friend's tiny apartment I love visiting",
+    summary: "朋友在大城市实习租了迷你公寓很小，但布置温馨干净。喜欢去做客因为一起挤在床上看电影做饭，但不愿住因为太挤太远。",
+    template: "I'd like to talk about a tiny apartment that belongs to a friend of mine. She rented it during an internship in a big city, mainly to save on rent. The apartment is incredibly small — the bed is up in a loft area, and the kitchen, bathroom and living space are all squeezed onto the ground floor. To be honest, you can barely turn around without bumping into something. But despite its size, I genuinely love visiting. My friend has decorated it with fairy lights, cosy cushions and photos, so the whole place feels warm and inviting. When I go over, we squeeze onto the bed together, watch films, order food or sometimes cook simple meals in her tiny kitchen. It feels like a little hideaway from the world. However, as much as I enjoy visiting, I wouldn't want to live there permanently. The main drawbacks are the lack of space and the inconvenient location — it's quite far from both the city centre and my university. So for me, it's a perfect place to visit but not to live. It's a classic trade-off between cosiness and practicality.",
+    key_phrases: ["tiny loft apartment", "save on rent", "cosy and inviting", "cramped but charming", "home-cooked meal", "a trade-off between", "hideaway from the world"],
+    vocab: { "loft": "阁楼", "cosy": "温馨的", "cramped": "拥挤的", "trade-off": "权衡取舍", "hideaway": "藏身之处" },
+    scoring: { fc: "7.5 | 物理描述→个人体验→理性分析，两段式对比结构。to be honest / however / so for me 过渡灵活", lr: "7 | cramped but charming / trade-off / squeeze onto / hideaway / warm and inviting 对比式搭配精准", gra: "7 | 让步状语 despite its size / as much as...、转折 however、强调 incredibly small", p: "注意 cramped / cosy / hideaway / permanently 发音" }
+  },
+  {
+    id: "story_14",
+    category: "place",
+    title_cn: "我最喜欢的城市",
+    title_en: "My favourite city",
+    summary: "目前在生活的城市，居住两年后真正爱上。喜欢四季分明、古建与现代融合、当地人友善热情。",
+    template: "My favourite city is the one where I'm currently living and studying, and I can honestly say I've fallen in love with it over the past two years. I knew about this city when I was young, but I only began to truly understand it after moving here. What I like most is the way it blends history with modern life. You can walk through centuries-old architecture in the morning, then grab a coffee in a sleek modern café in the afternoon. The city has four distinct seasons, and each one gives the streets a completely different character — especially autumn, when the tree-lined avenues turn golden. Another thing I appreciate is the people. Locals here are warm and welcoming, and I've always felt at home even though I'm not originally from here. There's also no shortage of things to do — museums, theatres, parks, shopping districts. For me, this city isn't just a place to live. It's a place with history, culture, and a rhythm that suits me perfectly. I genuinely feel fortunate to call it home.",
+    key_phrases: ["four distinct seasons", "century-old architecture", "blend of ancient and modern", "a sense of history", "modern conveniences", "warm and welcoming people", "feel at home"],
+    vocab: { "distinct seasons": "四季分明", "architecture": "建筑", "blend": "融合", "sleek": "时尚的", "fortunate": "幸运的" },
+    scoring: { fc: "7.5 | 总体感受→具体细节→人文氛围→总结升华。what I like most / another thing / for me 层次清晰", lr: "7 | blend history with modern life / distinct seasons / tree-lined avenues / call it home 地道表达", gra: "7 | 介词+关系代词 in which...、让步 even though...、排比 museums, theatres, parks...", p: "注意 architecture / distinct / fortunate / avenues 发音" }
+  },
+  {
+    id: "story_15",
+    category: "place",
+    title_cn: "学校附近的购物商场",
+    title_en: "A shopping mall near my university",
+    summary: "离学校最近的商场，面积大品牌多。每周去1-2次喝咖啡逛衣服，不仅是购物更是社交休闲方式。",
+    template: "I'd like to talk about a shopping mall near my university that I visit quite regularly. It's within walking distance from campus, which makes it incredibly convenient. I probably go there once or twice a week, usually on weekends or after a long study session when I need to unwind. Sometimes I just grab a coffee or bubble tea, and other times I go with friends to browse clothes or pick up daily necessities. The mall itself is quite spacious, with a wide range of brands and restaurants, so there's always something new to discover. What I appreciate most is that it's not just about shopping. For me and my friends, it's become a social activity and a way to relax. We might try on clothes, share a meal, or simply walk around and chat. After sitting in the library for hours, the change of environment is refreshing. I think having a place like this nearby makes student life more balanced. It gives you a reason to step away from your desk, see people, and recharge before getting back to work.",
+    key_phrases: ["within walking distance", "a wide range of brands", "grab a coffee", "try on clothes", "a way to unwind", "social and leisure activity", "my go-to place"],
+    vocab: { "unwind": "放松", "go-to": "首选", "leisure": "休闲", "spacious": "宽敞的", "refreshing": "令人清爽的" },
+    scoring: { fc: "7 | 位置→频率→功能→意义，递进式展开。not just about...it's become... 功能升华自然", lr: "7 | within walking distance / unwind / grab a coffee / recharge / step away from 地道生活化表达", gra: "7 | 关系从句 which makes it...、动名词主语 having a place like this...、比较 not just...but...", p: "注意 spacious / refreshing / necessities 发音" }
+  },
+  {
+    id: "story_16",
+    category: "event",
+    title_cn: "决定继续深造",
+    title_en: "The decision to pursue further studies",
+    summary: "毕业后做了重要决定继续读书而非工作，源于学习过程带来的意义感，喜欢深度思考解决问题，是改变人生方向的重大决定。",
+    template: "I'd like to talk about one of the most important decisions I've made — the choice to continue my studies rather than entering the workforce straight after graduation. It was a decision that took months of reflection. On one hand, many of my peers were starting jobs and becoming financially independent. On the other hand, I felt that my academic journey wasn't complete yet. What tipped the balance was a growing realisation during my final year. I found that what genuinely excited me wasn't just completing assignments, but the process of digging into a complex question and slowly making sense of it. That feeling of gradually understanding something difficult was deeply satisfying. I also came to realise that the specific field I wanted to explore required more advanced training — there were tools and methods I simply hadn't learned yet. So I made the decision to take the harder path. It means several more years of study and quite likely moving away from home, but I see it as an investment in the kind of career and life I want. It's not just about qualifications — it's about becoming the kind of thinker I aspire to be.",
+    key_phrases: ["life-changing decision", "a sense of meaning", "deep thinking", "step out of my comfort zone", "shape my future", "take the road less travelled", "tip the balance"],
+    vocab: { "life-changing": "改变人生的", "comfort zone": "舒适区", "aspire": "渴望/有志于", "reflection": "深思", "qualification": "学历/资格" },
+    scoring: { fc: "7.5 | 内心冲突→关键领悟→理性决策→意义升华。on one hand / what tipped the balance / so I made the decision 逻辑严密", lr: "7 | tip the balance / take the harder path / make sense of / investment in 地道搭配", gra: "7.5 | 强调句 what genuinely excited me was...、比较 rather than...、主语从句 that I wanted to explore", p: "注意 aspire / qualification / genuinely / realisation 发音" }
+  },
+  {
+    id: "story_17",
+    category: "object",
+    title_cn: "YouTube 视频：AI 辅助制作游戏",
+    title_en: "A YouTube video about building a game with AI",
+    summary: "看到博主用 AI 编程助手短时间内做出互动网页游戏，从怀疑到被震撼，启发自己用 AI 搭建个人网站。",
+    template: "I'd like to talk about a YouTube video I came across that genuinely opened my eyes. It was about a blogger using an AI coding agent to build an interactive web game from scratch. I clicked on it casually, honestly expecting it to be exaggerated. Building a game usually requires serious programming skills, so I was quite sceptical about the claim that someone could do it in such a short time without writing traditional code. But as I watched, I was completely blown away. The blogger simply described what he wanted in plain language, and the AI generated and fixed the code step by step. The idea was turned into a working product right before my eyes. What impressed me most was how accessible it made the whole process — you didn't need years of coding experience. This video was a real turning point for me. It encouraged me to try using AI tools to build my own personal website, which I managed to do much more quickly than I expected. It shifted my understanding of what's possible with these tools.",
+    key_phrases: ["AI coding agent", "interactive web game", "sceptical at first", "blown away", "no coding background required", "bring an idea to life", "turning point"],
+    vocab: { "sceptical": "怀疑的", "blown away": "被震撼", "bring to life": "实现", "accessible": "可及的", "exaggerate": "夸张" },
+    scoring: { fc: "7.5 | 预期→反转→冲击→行动，叙事张力好。honestly expecting / but as I watched / what impressed me most 节奏到位", lr: "7 | come across / from scratch / blown away / turning point / open one's eyes 地道短语密集", gra: "7 | 分词状语 expecting it to be...、宾语从句 how accessible it made...、比较 much more quickly than...", p: "注意 sceptical / accessible / exaggerate 发音" }
+  },
+  {
+    id: "story_18",
+    category: "place",
+    title_cn: "国家大剧院的建筑",
+    title_en: "The National Centre for the Performing Arts",
+    summary: "国家大剧院位于北京市中心，外观像鹅卵石，前方湖水倒影形成完整椭圆。简约美观，圆拱设计符合声学要求，是美观与功能兼具的现代建筑。",
+    template: "I'd like to talk about the National Centre for the Performing Arts, one of the most striking buildings I've ever seen. It's located in the heart of Beijing and serves as a major cultural venue for concerts, operas and theatre performances. What makes this building so special is its design. From the outside, it looks like a giant polished pebble or half an egg, sitting quietly on the ground. But what really completes the picture is the shallow artificial lake surrounding it. The reflection in the water makes the dome appear as a complete oval, which is simply stunning, especially at night when the lights come on. I find it fascinating because the design isn't just about looks — the curved shape also serves an acoustic purpose. The dome's structure helps distribute sound evenly throughout the concert hall, so the architecture actually enhances the performance quality. For me, this building represents a perfect blend of aesthetics and functionality. Every time I pass by it, I'm reminded that the best design doesn't choose between beauty and usefulness — it achieves both.",
+    key_phrases: ["striking architecture", "egg-shaped dome", "minimalist design", "reflection in the lake", "blend of aesthetics and functionality", "acoustic requirements", "a modern landmark"],
+    vocab: { "dome": "穹顶", "minimalist": "简约的", "acoustic": "声学的", "aesthetics": "美学", "polished pebble": "鹅卵石" },
+    scoring: { fc: "7.5 | 位置→外观→设计智慧→个人感悟。what makes this special / but what really completes / for me 引导清晰", lr: "7.5 | polished pebble / blend of aesthetics and functionality / acoustic purpose / striking architecture 高级搭配", gra: "7 | 主语从句 what makes this building so special...、被动语态 is located / is surrounded、分词状语 sitting quietly", p: "注意 aesthetics / acoustic / architecture / pebble 发音" }
+  },
+  {
+    id: "story_19",
+    category: "people",
+    title_cn: "想见的名人 Rafael Nadal",
+    title_en: "Rafael Nadal, the famous person I'd like to meet",
+    summary: "西班牙网球运动员 Rafael Nadal，从小通过电视认识他，被他的比赛态度吸引——无论领先落后都认真对待每一分，永不放弃。因他而喜欢上网球。",
+    template: "I'd like to talk about Rafael Nadal, the famous Spanish tennis player, who is someone I genuinely admire. I first got to know him when I was young and watched tennis matches on TV. What drew me in wasn't just his skill on the court — it was his fighting spirit. Whether he was leading comfortably or falling behind, he treated every single point seriously. I've never seen him give up on a ball, no matter how impossible it seemed to reach. That kind of mental strength is something I find incredibly inspiring. Unlike team sports where players can share the pressure, tennis players face it almost completely on their own. Nadal has dealt with numerous injuries throughout his career — problems with his knees and feet that would have forced many athletes to retire. But he kept coming back, adjusting his playing style and fighting his way through setbacks. For me, he represents more than athletic success. He embodies resilience, discipline and the belief that you can overcome difficulties through sheer determination. His story has genuinely encouraged me during challenging times in my own life.",
+    key_phrases: ["fighting spirit", "never give up", "stay calm under pressure", "Grand Slam champion", "resilience", "mental strength", "sheer determination"],
+    vocab: { "fighting spirit": "战斗精神", "resilience": "韧性", "Grand Slam": "大满贯", "mental strength": "心理素质", "embody": "体现" },
+    scoring: { fc: "7.5 | 认知→核心品质→具体例证→深层意义。what drew me in / unlike / for me 衔接紧密", lr: "7.5 | fighting spirit / mental strength / sheer determination / embody resilience 高分词汇密集", gra: "7.5 | 让步 whether...or...、比较 unlike team sports...、虚拟语气 would have forced、关系从句 who is...", p: "注意 resilience / genuinely / determination / embody 发音" }
+  },
+  {
+    id: "story_20",
+    category: "object",
+    title_cn: "公共场所禁烟法",
+    title_en: "A stricter smoking ban in public places",
+    summary: "想颁布更严格的公共场所禁烟法，禁止在室内空间吸烟，划定专门户外吸烟区。二手烟对不吸烟者不公，个人自由不应以伤害他人健康为代价。",
+    template: "A new law I would like to introduce is a stricter smoking ban in public places. Under this law, people would not be allowed to smoke in any indoor or enclosed public spaces, such as restaurants, shopping malls, office buildings, and train stations. At the same time, I believe there should be designated outdoor smoking areas so that smokers still have a place to go without affecting others. The main reason I feel strongly about this is second-hand smoke. It's harmful and, more importantly, it's unfair. Non-smokers shouldn't have to breathe in toxic air simply because they're sharing a public space with someone who chooses to smoke. I understand that some smokers might feel this law restricts their personal freedom. But I would argue that personal freedom should not come at the cost of other people's health. Public spaces are meant to be clean, safe and comfortable for everyone. To me, this law isn't about judging smokers — it's about protecting public health and ensuring that shared spaces truly belong to everyone.",
+    key_phrases: ["second-hand smoke", "designated smoking areas", "public health", "personal freedom", "come at the cost of", "enclosed public spaces", "harmful and unfair"],
+    vocab: { "second-hand smoke": "二手烟", "designated": "指定的", "enclosed": "封闭的", "toxic": "有毒的", "restrict": "限制" },
+    scoring: { fc: "7.5 | 提议→细则→理由→反驳→升华。at the same time / the main reason / I understand...but I would argue 辩论式结构", lr: "7 | second-hand smoke / designated areas / come at the cost of / toxic air 精准词汇", gra: "7.5 | 虚拟语气 would not be allowed / would argue、被动语态 are meant to be、原因状语 shouldn't have to...simply because...", p: "注意 designated / enclosed / toxic / argument 发音" }
+  },
+  {
+    id: "story_21",
+    category: "object",
+    title_cn: "跨年吃12颗葡萄",
+    title_en: "Eating 12 grapes on New Year's Eve",
+    summary: "西班牙跨年吃12颗葡萄的传统习俗，钟声每响一次吃一颗。每年和朋友一起倒数吃葡萄，过程搞笑但有仪式感和参与感。",
+    template: "I'd like to talk about a New Year's Eve tradition that I've adopted — eating twelve grapes at midnight. It's actually a Spanish custom that I came across online a few years ago. The idea is simple: as the clock strikes twelve, you eat one grape with each chime, making a wish for each month of the coming year. It sounds easy, but trust me, trying to swallow twelve grapes in quick succession while everyone around you is laughing and counting down is much harder than it looks. The first year I tried it, I nearly choked from laughing so hard. But that's exactly what makes it so enjoyable. It's light-hearted, a little bit silly, and it creates this wonderful shared moment. Every year now, my friends and I gather together, prepare our grapes, and count down to midnight. The tradition gives New Year's Eve a sense of ceremony and participation that just watching fireworks doesn't quite match. It's become something I genuinely look forward to — a small ritual that marks the end of one year and the hopeful beginning of another.",
+    key_phrases: ["count down together", "a sense of ceremony", "light-hearted", "see off the past year", "welcome a new beginning", "in quick succession", "shared moment"],
+    vocab: { "countdown": "倒计时", "ceremony": "仪式", "light-hearted": "轻松愉快的", "tradition": "传统", "ritual": "仪式/惯例" },
+    scoring: { fc: "7 | 来源→规则→体验→意义。it sounds easy, but trust me 口语化转折自然亲切", lr: "7 | light-hearted / in quick succession / sense of ceremony / look forward to / shared moment 地道搭配", gra: "7 | 时间状语 as the clock strikes...、比较 harder than it looks / doesn't quite match、分词状语 trying to...", p: "注意 ceremony / succession / ritual 发音" }
+  },
+  {
+    id: "story_22",
+    category: "object",
+    title_cn: "纪录片 Clarkson's Farm",
+    title_en: "Clarkson's Farm documentary series",
+    summary: "纪录片讲 Jeremy Clarkson 经营农场的故事。起初自信但处处碰壁，让人意识到农业的复杂性，既有趣又有意义。",
+    template: "I'd like to talk about a programme I've been watching recently called Clarkson's Farm. It's a British documentary-style reality show that follows Jeremy Clarkson, a famous TV presenter, as he attempts to run his own farm. At first, I mainly watched it for the humour — seeing someone who knows nothing about farming struggle with stubborn animals and broken machinery is genuinely entertaining. But as the series progressed, I found it surprisingly meaningful. The show doesn't shy away from showing how complicated farming really is. Farmers have to deal with unpredictable weather, soil conditions, expensive equipment, government regulations, and constant financial pressure. One bad harvest or unexpected disease can ruin months of work. I used to think farming was quite simple — just planting seeds and collecting crops. But this programme completely changed my view. It made me realise that farming requires an incredible combination of skills: biology, mechanics, business management, and sheer physical endurance. I now have so much more respect for farmers and the food they produce. The show is both entertaining and informative, which is a rare combination.",
+    key_phrases: ["documentary series", "farm life", "complicated and demanding", "rural life", "respect for farmers", "shy away from", "sheer physical endurance"],
+    vocab: { "documentary": "纪录片", "demanding": "要求高的", "rural": "乡村的", "agriculture": "农业", "endurance": "耐力" },
+    scoring: { fc: "7.5 | 观感变化：娱乐→思考→认知转变。at first / but as / I used to think...but 对比强烈，论证有力", lr: "7.5 | shy away from / financial pressure / sheer endurance / rare combination 精准搭配", gra: "7.5 | 关系从句 that follows...、分词状语 seeing someone struggle、比较 used to think...but...", p: "注意 documentary / agricultural / endurance / machinery 发音" }
+  },
+  {
+    id: "story_23",
+    category: "event",
+    title_cn: "新电脑无法共享 PPT 汇报",
+    title_en: "New laptop couldn't share PPT during a presentation",
+    summary: "换新电脑后线上汇报时屏幕共享出问题。立刻把 PPT 发给同学请其共享屏幕，自己继续口头汇报。教训：重要会议必须提前测试设备。",
+    template: "I'd like to talk about a time when I had a problem with an electronic device at the worst possible moment. It happened during an online meeting where I needed to present my slides to my supervisor and a few classmates. I had recently switched to a new laptop, and when I clicked the screen-sharing button, the system told me that the meeting app didn't have the necessary permission to share the screen. Everyone was waiting, and I could feel myself becoming nervous. Instead of wasting time trying to fix the settings while people watched, I quickly came up with a backup plan. I sent my slides to a classmate and asked them to share the file from their screen while I continued speaking. The meeting went ahead without too much disruption, and I sorted out the permission settings afterwards. What this experience taught me was the importance of testing equipment before anything important. A quick check five minutes earlier would have saved me a lot of stress. Now, before every online meeting, I always do a quick test run — it's become a habit that I'm grateful for.",
+    key_phrases: ["screen sharing failed", "backup plan", "stay calm and find a solution", "test equipment in advance", "awkward situation", "at the worst possible moment", "sort out"],
+    vocab: { "screen sharing": "屏幕共享", "backup plan": "备用方案", "configure": "配置", "disruption": "中断", "permission": "权限" },
+    scoring: { fc: "7.5 | 场景→问题→解决→教训，完整叙事弧。instead of / what this experience taught me 因果链清晰", lr: "7 | at the worst possible moment / backup plan / sort out / test run 地道表达", gra: "7 | 关系从句 where I needed to...、分词状语 instead of wasting...、虚拟语气 would have saved", p: "注意 permission / disruption / equipment 发音" }
+  },
+  {
+    id: "story_24",
+    category: "place",
+    title_cn: "雅思考试候考区",
+    title_en: "The waiting area of an IELTS test centre",
+    summary: "雅思考试候考区是最无聊的地方之一。不能使用手机不能随便聊天，只有椅子和考试提示。虽无聊但让人提前进入考试状态。",
+    template: "A boring place I'd like to describe is the waiting area of an IELTS test centre. On the test day, candidates have to arrive very early and wait in a designated room before the exam begins. Once you enter, you're not allowed to use your mobile phone or talk freely with others. The room itself is very plain — just rows of chairs, a few staff members, and notices about exam rules on the walls. There's nothing interesting to look at, no music, no entertainment of any kind. I remember sitting there, feeling both sleepy and anxious, watching the clock move incredibly slowly. Time seemed to stretch endlessly. However, as boring as it was, I understand why the rule exists. Putting away your phone and sitting quietly actually helps you calm down and get into the right mindset before a high-pressure exam. The silence forces you to focus your thoughts. So while it might be one of the most tedious places I've ever been in, I have to admit it serves a purpose. It prepares you mentally for what's about to come.",
+    key_phrases: ["waiting area", "not allowed to use mobile phones", "rows of chairs", "time passed extremely slowly", "get into exam mode", "felt both sleepy and anxious", "get into the right mindset"],
+    vocab: { "designated area": "指定区域", "anxious": "焦虑的", "exam mode": "考试状态", "tedious": "乏味的", "mindset": "心态" },
+    scoring: { fc: "7.5 | 空间描写→感官体验→理性分析。once you enter / however / so while 转折层次丰富", lr: "7 | plain / stretch endlessly / get into the right mindset / tedious but serves a purpose 精准表达", gra: "7 | 让步 as boring as it was、被动语态 are not allowed、分词状语 feeling both sleepy and anxious", p: "注意 anxious / designated / tedious / mindset 发音" }
+  },
+  {
+    id: "story_25",
+    category: "object",
+    title_cn: "公园秋季书市新闻",
+    title_en: "Local news about a park autumn book fair",
+    summary: "社交媒体看到公园秋季书市的新闻。书市有很强文化氛围，可淘打折书旧书小众出版物。线下书市让读书变成公共文化活动。",
+    template: "I'd like to talk about a piece of local news that caught my attention recently. It was about an autumn book fair held in a large park in the city, and I came across the story on social media. What made this news interesting to me was that it wasn't just about selling books — it was about creating a cultural event. According to the reports, the fair had dozens of stalls where you could browse discounted books, second-hand treasures, and even rare publications from small independent publishers. There were also reading clubs and discussion groups where people could share their thoughts. What I find particularly meaningful is that this kind of event turns reading from a private activity into a shared experience. In an age when most people buy books online with a single click, the fair brings back something we've lost — the joy of touching a physical book, flipping through its pages, and chatting with the seller or a fellow reader about why they loved it. It reminds us that reading doesn't have to be a solitary activity. It can be a way of connecting with others who share the same passion.",
+    key_phrases: ["cultural atmosphere", "browse different stalls", "discounted books", "in person", "public cultural space", "shared experience", "solitary activity"],
+    vocab: { "stall": "摊位", "browse": "浏览", "discounted": "打折的", "solitary": "独自的", "publication": "出版物" },
+    scoring: { fc: "7.5 | 新闻引入→内容展开→深层意义。what made this interesting / what I find meaningful / it reminds us 层层推进", lr: "7.5 | catch one's attention / turn A into B / flip through pages / solitary activity / shared passion 搭配精准", gra: "7.5 | 强调句 what made this news interesting was...、关系从句 where people could...、比较 turns reading from...into...", p: "注意 atmosphere / solitary / publication / browse 发音" }
+  },
+  {
+    id: "story_26",
+    category: "event",
+    title_cn: "看 Nadal 网球比赛直播",
+    title_en: "Watching a Rafael Nadal tennis match on live broadcast",
+    summary: "通过直播看 Nadal 比赛留下深刻印象。比赛激烈他一度落后但没有急躁每分认真处理。他的专注和韧性让我真正喜欢上网球。",
+    template: "I'd like to talk about a live sports event I watched that left a lasting impression on me — a tennis match featuring Rafael Nadal. I watched it on live broadcast, and even though I wasn't in the stadium, it felt incredibly intense. Nadal was up against a very strong opponent, and at one point he was clearly falling behind. What really struck me was his reaction — or rather, his lack of reaction. He didn't panic, didn't show frustration, didn't rush his shots. Instead, he stayed completely focused, treating every single point as if it were the most important one of the match. Unlike team sports where players can rely on teammates to share the pressure, tennis players have to face it entirely on their own. Slowly, he began to find his rhythm, and point by point, the match started to turn. Watching that comeback unfold was genuinely inspiring. It made me realise that sport isn't just about physical ability — it's about patience, mental discipline, and the refusal to give up even when things look hopeless. That match is the reason I truly fell in love with tennis.",
+    key_phrases: ["live broadcast", "falling behind", "didn't panic", "incredible resilience", "physical and mental pressure", "find his rhythm", "point by point"],
+    vocab: { "suspense": "悬念", "resilience": "韧性", "rhythm": "节奏", "comeback": "逆转", "intense": "激烈的" },
+    scoring: { fc: "7.5 | 场面→关键时刻→转折→感悟。what really struck me / instead / slowly 节奏控制出色", lr: "7 | fall behind / strike someone / find one's rhythm / come back / mental discipline 运动类搭配地道", gra: "7.5 | 虚拟 as if it were、比较 unlike team sports...、分词状语 watching that comeback、强调句 that match is the reason...", p: "注意 rhythm / discipline / opponent / genuinely 发音" }
+  },
+  {
+    id: "story_27",
+    category: "event",
+    title_cn: "学生音乐会体验不佳",
+    title_en: "A student concert I didn't enjoy",
+    summary: "参加学校学生音乐会，开始很期待但实际体验不佳——音响差声音刺耳，改编歌曲与熟悉原版差异大。理解学生不易但体验低于预期。",
+    template: "I'd like to talk about a student concert I attended that, unfortunately, didn't live up to my expectations. It was organised by the university, and I went along with a few friends because we thought it would be a nice way to unwind at the weekend. To be fair, the performers on stage were clearly trying their best. You could tell they had put in a lot of practice. However, the main problem was the sound system. At times, the music was so loud and harsh that it was genuinely uncomfortable to listen to. At other times, the vocals were too faint to make out the lyrics. Another issue was that many familiar songs had been rearranged in a way that sounded quite strange — almost unrecognisable from the original versions I loved. It wasn't that the students lacked talent or effort. The equipment and the arrangement choices just didn't work in their favour. I left feeling a bit disappointed, but I also felt I had learned something: a good performance depends on so much more than just the performers. The venue, the sound setup, and the overall atmosphere all play a huge role in whether an audience enjoys the experience.",
+    key_phrases: ["sound system", "sound quality", "rearranged songs", "too loud and harsh", "didn't live up to expectations", "to be fair", "play a huge role"],
+    vocab: { "sound system": "音响系统", "rearrange": "改编", "harsh": "刺耳的", "vocals": "人声", "venue": "场地" },
+    scoring: { fc: "7.5 | 期待→失望→原因分析→理性总结。to be fair / however / it wasn't that... 多角度看待问题，思维成熟", lr: "7.5 | live up to expectations / to be fair / work in one's favour / play a huge role 地道搭配", gra: "7 | so...that...结果状语、强调句 it wasn't that...、比较 more than just...", p: "注意 harsh / vocals / rearranged / venue 发音" }
+  },
+  {
+    id: "story_28",
+    category: "object",
+    title_cn: "笔记本电脑花费超过预期",
+    title_en: "My laptop cost more than expected",
+    summary: "买新笔记本电脑花了远超预期的金额。旧电脑用了多年卡顿存储不够。付钱时心疼但用后觉得值——运行流畅续航好，视为对未来投资。",
+    template: "An item I spent more money on than I had originally planned was my new laptop. It ended up costing a considerable amount — noticeably higher than the budget I had set for myself. The reason I bought it was that my old laptop was frankly on its last legs after years of use. It had become painfully slow, the storage was constantly full, and I'd often find myself waiting for basic programmes to respond. As a student, my laptop is probably the most important tool I use every day. I rely on it for reading papers, writing essays, preparing presentations, running code for my projects, and attending online meetings. So having a reliable machine wasn't a luxury — it was a necessity. At first, I hesitated because it was a big expense. But I decided to go ahead because I wanted something that would last and genuinely support my work. Now, after using it for a while, I can honestly say it was worth the investment. It runs smoothly, the battery lasts through a full day, and I feel more organised. Sometimes, paying more upfront saves you a lot of trouble down the road.",
+    key_phrases: ["cost more than expected", "on its last legs", "worth the money", "an investment in my study", "runs much faster", "battery life", "down the road"],
+    vocab: { "storage": "存储空间", "reliable": "可靠的", "investment": "投资", "upfront": "预先的", "painfully slow": "慢得令人痛苦" },
+    scoring: { fc: "7.5 | 花费→旧设备问题→新设备必要性→使用验证→总结。frankly / at first / now 时间线索+心理变化完整", lr: "7.5 | on its last legs / painfully slow / wasn't a luxury, it was a necessity / worth the investment / down the road 搭配地道", gra: "7.5 | 强调句 what made it...was...、原因状语 not because...but because...、分词状语 after using it...", p: "注意 luxury / investment / upfront / genuinely 发音" }
+  },
+  {
+    id: "story_29",
+    category: "people",
+    title_cn: "童年发小",
+    title_en: "A childhood friend",
+    summary: "小学认识的朋友，性格开朗可靠很好相处。一起做作业玩游戏分享秘密，在一起总是很放松。那段简单无忧的时光一直留在记忆里。",
+    template: "I'd like to talk about a childhood friend who holds a special place in my memory. We knew each other from primary school and spent a lot of time together after class. She was cheerful, reliable and incredibly easy to talk to. When we were young, we often did homework together, played simple games in the neighbourhood, and shared little secrets that seemed hugely important at the time. What I remember most is how relaxed I always felt around her. We didn't need to do anything special — even walking home together or just sitting on a bench chatting felt enjoyable. There was no pressure to be interesting or impressive. As we grew older, we went to different schools and naturally drifted apart, which I think is quite common. But whenever I look back on that period of my life, she's the first person who comes to mind. She represents a simpler, more carefree time before the stresses of exams, applications and adult responsibilities took over. Even though we're not as close as we used to be, I'm grateful for those memories.",
+    key_phrases: ["childhood friend", "cheerful and reliable", "easy to talk to", "shared little secrets", "felt relaxed around her", "a carefree period of life", "drifted apart"],
+    vocab: { "cheerful": "开朗的", "reliable": "可靠的", "carefree": "无忧无虑的", "drift apart": "渐行渐远", "grateful": "感激的" },
+    scoring: { fc: "7.5 | 人物→共同经历→关系变迁→情感总结。what I remember most / as we grew older / even though 时间线+情感线完整", lr: "7 | hold a special place / drift apart / carefree time / come to mind 地道表达自然", gra: "7 | 关系从句 who holds...、让步 even though...、比较 not as close as we used to be", p: "注意 cheerful / carefree / grateful 发音" }
+  },
+  {
+    id: "story_30",
+    category: "event",
+    title_cn: "学术会议早起准备汇报",
+    title_en: "Getting up early for an academic conference presentation",
+    summary: "有重要学术会议汇报，前一天设了好几个闹钟。当天又困又紧张但路上反复梳理逻辑。到场检查设备让自己冷静。虽累但准备充分后感觉专注多了。",
+    template: "I'd like to talk about a morning when I had to get up extremely early for an important presentation at an academic conference. The presentation meant a lot to me because I needed to present my research in front of professors and fellow students. The venue was quite far from where I lived, and I wanted to arrive early to check my slides and test the equipment, so I set multiple alarms the night before. When the alarm went off, it was still dark outside. I felt groggy and a little nervous, but I forced myself out of bed. On the way there, I kept going through the logic of my presentation in my head — what to say first, how to connect each point, where to pause for emphasis. By the time I arrived, I had mentally rehearsed the whole thing several times. I checked the projector, opened my slides, and took a few minutes to just breathe and calm myself down. Although getting up that early was exhausting, it gave me the time I needed to feel prepared rather than rushed. When I finally started speaking, I felt focused and in control.",
+    key_phrases: ["academic conference presentation", "check my slides", "test the equipment", "go through the logic", "calm myself down", "tired but focused", "feel prepared rather than rushed"],
+    vocab: { "presentation": "汇报", "equipment": "设备", "groggy": "昏沉的", "rehearse": "排练", "focused": "专注的" },
+    scoring: { fc: "7.5 | 时间线叙事：前夜→起床→路上→到场→开场，节奏紧凑。when the alarm / on the way / by the time 时序清晰", lr: "7.5 | go through the logic / mentally rehearse / calm down / feel in control 精准表达", gra: "7 | 时间状语 by the time I arrived...、分词状语 after checking...、让步 although getting up...", p: "注意 groggy / rehearse / presentation / emphasis 发音" }
+  },
+  {
+    id: "story_31",
+    category: "event",
+    title_cn: "论文修改计划被反馈后调整",
+    title_en: "Revising a paper plan after feedback",
+    summary: "原本计划尽快完成论文投稿，但导师和学长反馈后发现问题不少——逻辑不够清楚、结果需要更充分解释。改变计划逐节修改，虽沮丧但最终论文质量提高很多。",
+    template: "I'd like to talk about a plan I had to change recently, which turned out to be a valuable lesson. I had originally planned to finish my research paper and submit it as soon as possible. I'd been working on it for quite a while, and I felt it was nearly ready. However, after discussing it with my supervisor and a senior schoolmate, I realised the paper still needed substantial revision. It wasn't just about fixing the language — some sections lacked clear logic, and several of my results needed stronger explanations and better references to support them. To be honest, I felt quite frustrated at first. Changing the plan meant delaying my submission, which threw off my schedule. But once I accepted the situation and started revising section by section, I began to see that the feedback was genuinely valuable. Each change made the argument tighter and more convincing. By the time I finished the revision, the paper was noticeably stronger than before. This experience taught me that receiving critical feedback isn't a setback — it's an opportunity to improve. Sometimes you need someone else's eyes to see what you've been missing.",
+    key_phrases: ["final polishing", "submit to a journal", "not just a language problem", "section by section", "stronger explanations", "delayed my schedule", "critical feedback isn't a setback"],
+    vocab: { "polishing": "润色", "submit": "投稿", "revise": "修改", "substantial": "实质性的", "setback": "挫折" },
+    scoring: { fc: "7.5 | 原计划→发现不足→情绪反应→接受→成果→反思。to be honest / but once I accepted / by the time 心理变化完整", lr: "7.5 | substantial revision / throw off one's schedule / section by section / tighter argument / critical feedback 学术搭配地道", gra: "7.5 | 强调句 it wasn't just about...、分词状语 changing the plan meant...、宾语从句 taught me that...", p: "注意 substantial / revision / schedule / valuable 发音" }
+  },
+  {
+    id: "story_32",
+    category: "event",
+    title_cn: "暑期学校小组合作项目",
+    title_en: "Summer school group project",
+    summary: "参加国际暑期学校被要求组队做展示。组员背景不同需用英语沟通很有挑战。明确分工后展示顺利，教会我团队合作需要沟通耐心和理解。",
+    template: "I'd like to talk about a time when I worked in a group during an international summer programme. I originally thought we would mostly attend lectures, but we were asked to form teams, choose a topic, and deliver a final presentation — all in English. It was quite challenging because the participants came from different academic backgrounds, and we all had to communicate in a language that wasn't our first. To make things work, we started by clearly dividing the tasks according to each person's strengths. Some people focused on data analysis, some gathered references, and I helped structure the presentation logic. There were moments of confusion and differing opinions, but we learned to listen to each other rather than just push our own ideas. What I found most valuable was realising that teamwork isn't just about dividing the workload efficiently. It's about communication, patience, and genuinely understanding where your teammates are coming from. In the end, the presentation went smoothly, and we all felt a shared sense of achievement. The experience definitely changed how I approach collaborative work.",
+    key_phrases: ["form teams", "different academic backgrounds", "divide the tasks clearly", "organize the logic", "mutual understanding", "the presentation went well", "shared sense of achievement"],
+    vocab: { "form teams": "组队", "mutual understanding": "相互理解", "collaborative": "协作的", "strength": "优势/长处", "achievement": "成就" },
+    scoring: { fc: "7.5 | 预期→挑战→策略→冲突→收获。to make things work / what I found most valuable / in the end 逻辑推进清晰", lr: "7 | divide tasks according to strengths / structure the logic / come from different backgrounds / collaborative work 学术搭配", gra: "7.5 | 关系从句 where your teammates are coming from、分词状语 realising that...、比较 not just about...but about...", p: "注意 collaborative / achievement / valuable 发音" }
+  },
+  {
+    id: "story_33",
+    category: "object",
+    title_cn: "春节包饺子",
+    title_en: "Making dumplings during Spring Festival",
+    summary: "每年春节全家一起包饺子。有人准备馅料有人擀皮有人包。在饺子藏硬币谁吃到象征好运。代表传统、团聚和归属感。",
+    template: "I'd like to talk about dumplings — a food that's closely connected with the most important family occasion of the year, the Spring Festival. Dumplings themselves are quite common in China, but what makes them special to me is the ritual of making them together. Every year, my whole family gathers in the kitchen. Some people prepare the filling, some make the wrappers, and others do the actual wrapping. It's a real team effort and honestly, half the fun is the chaos of everyone trying to wrap dumplings in their own way. There's one particular tradition that always gets everyone excited — we hide a coin inside one of the dumplings. The person who finds it is believed to have good luck for the entire coming year. When someone finally bites into the lucky dumpling, the whole room erupts in laughter and congratulations. When I was younger, I mostly cared about the taste. But now I understand that dumplings during Spring Festival represent something much deeper — tradition, family reunion, and a powerful sense of belonging that's hard to put into words.",
+    key_phrases: ["family reunion", "prepare the filling", "dumpling wrappers", "wrap dumplings", "hide a coin for good luck", "a sense of belonging", "hard to put into words"],
+    vocab: { "filling": "馅料", "wrapper": "饺子皮", "reunion": "团聚", "belonging": "归属感", "erupt": "爆发" },
+    scoring: { fc: "7.5 | 食物→制作过程→特殊习俗→意义升华。but what makes them special / when I was younger...but now 对比递进", lr: "7.5 | ritual / team effort / erupt in laughter / sense of belonging / hard to put into words 地道表达密集", gra: "7.5 | 主语从句 what makes them special is...、时间状语 when someone finally bites...、比较 much deeper...", p: "注意 dumpling / wrapper / reunion / belonging 发音" }
+  },
+  {
+    id: "story_34",
+    category: "object",
+    title_cn: "Nadal 运动品牌广告",
+    title_en: "A sports advertisement featuring Rafael Nadal",
+    summary: "在网上看到 Nadal 代言的网球帽/运动服广告。广告不复杂但有效——Nadal 的形象和努力韧性纪律紧密相连。感觉产品承载了他的态度和精神。",
+    template: "I'd like to talk about a sports advertisement I came across that featured Rafael Nadal. I saw it online, and it was promoting sportswear — specifically tennis caps and performance clothing. The advertisement itself wasn't particularly complicated. It simply showed Nadal on a practice court, looking intensely focused, preparing to hit a shot. There was no dramatic storyline or special effects. But I found it surprisingly effective. The reason, I think, is that Nadal's image carries a lot of weight. People associate him with hard work, discipline, and an almost superhuman level of resilience. So when he appears in an ad, those qualities seem to transfer onto the product itself. The sportswear didn't feel like an ordinary piece of clothing — it seemed to represent a certain mindset and attitude. As someone who admires Nadal, I found myself wanting to wear something that symbolised that same dedication. It made me realise that the most powerful advertisements don't need to shout. They simply connect a product with values that people already respect and aspire to.",
+    key_phrases: ["sports advertisement", "featuring Rafael Nadal", "promote sportswear", "strongly connected with", "carry his attitude and spirit", "carry a lot of weight", "values people aspire to"],
+    vocab: { "advertisement": "广告", "endorse": "代言", "sportswear": "运动服装", "resilience": "韧性", "aspire to": "向往" },
+    scoring: { fc: "7.5 | 广告内容→分析有效原因→个人反应→普遍结论。the reason, I think / so when / it made me realise 分析式结构", lr: "7.5 | carry weight / transfer onto / mindset and attitude / aspire to 精准商业+情感词汇", gra: "7 | 宾语从句 I think, is that...、时间状语 when he appears...、强调句 the most powerful advertisements don't need to...", p: "注意 advertisement / resilience / aspire / symbolise 发音" }
+  },
+  {
+    id: "story_35",
+    category: "event",
+    title_cn: "选择大学专业方向",
+    title_en: "Choosing my major at university",
+    summary: "大学第一年探索不同课程，第二学年选择交叉学科专业。不从单一角度看问题，结合多学科理解复杂现实世界。不是最热门的但感觉最适合。",
+    template: "I'd like to talk about an important decision I made during university — choosing my major. In my first year, I didn't have to commit immediately. Instead, the system allowed us to explore different subjects before making a final decision. I tried courses in several areas, trying to figure out what genuinely interested me. What I discovered was that I was drawn to problems that couldn't be explained through a single discipline. I wanted to understand how different systems interact — not just the technical details, but the bigger picture. So in my second year, I chose an interdisciplinary field that combined ideas from mathematics, computer science, and real-world applications. It wasn't the most popular or well-known major, and some people questioned why I didn't pick something more conventional. But it felt like the right fit for the way I think. Looking back, that decision shaped my entire academic path. It led me towards the kind of research I do now and helped me develop a way of approaching problems that I genuinely value. Sometimes the right choice isn't the most obvious one.",
+    key_phrases: ["choose a specific major", "explore academic directions", "from only one angle", "complex real-world systems", "the right fit for me", "shape my academic path", "the bigger picture"],
+    vocab: { "major": "专业", "interdisciplinary": "交叉学科的", "conventional": "传统的", "discipline": "学科", "obvious": "显而易见的" },
+    scoring: { fc: "7.5 | 制度背景→探索过程→决策→验证。what I discovered / so in my second year / looking back 因果链完整", lr: "7.5 | interdisciplinary / bigger picture / right fit / conventional / approach problems 学术词汇精准", gra: "7.5 | 主语从句 what I discovered was that...、宾语从句 understand how...、比较 not the most...but...", p: "注意 interdisciplinary / conventional / discipline 发音" }
+  },
+  {
+    id: "story_36",
+    category: "object",
+    title_cn: "垃圾分类规定",
+    title_en: "Waste sorting regulation",
+    summary: "很多城市实行垃圾分类规定，将垃圾分为可回收物、厨余垃圾、有害垃圾和其他垃圾。起初觉得麻烦后来逐渐成了习惯。普通人通过日常小行动保护环境。",
+    template: "I'd like to talk about a regulation that has been introduced in many cities — the waste sorting policy. Under this law, residents are required to sort their household waste into different categories: recyclable waste like plastic bottles and paper, food waste such as leftovers, hazardous waste including used batteries, and other general household waste. I first learned about it from news reports and posters displayed in my community. The posters clearly showed which type of rubbish belongs in which bin. To be completely honest, when the policy was first implemented, I found it a bit troublesome. I had to pause and think before throwing anything away, and occasionally I still put things in the wrong bin out of habit. But after a few weeks, it started to feel natural. Now, separating waste has become second nature. I support this regulation because I believe protecting the environment shouldn't be left only to governments or large organisations. Small daily actions, when multiplied by millions of people, can create a significant impact. This policy has made me more conscious of my consumption habits in general.",
+    key_phrases: ["waste sorting regulation", "recyclable waste", "food waste", "hazardous waste", "household waste", "recycling bin", "second nature", "small daily actions"],
+    vocab: { "recyclable": "可回收的", "hazardous": "有害的", "household waste": "生活垃圾", "sort": "分类", "conscious": "有意识的" },
+    scoring: { fc: "7.5 | 政策介绍→个人适应过程→环保意义。to be honest / but after a few weeks / now 时间线清晰，态度转变自然", lr: "7 | second nature / multiplied by millions / become conscious of / significant impact 搭配地道", gra: "7 | 分词状语 when multiplied by...、被动语态 should not be left to...、宾语从句 I believe...", p: "注意 recyclable / hazardous / conscious / significant 发音" }
+  },
+  {
+    id: "story_37",
+    category: "place",
+    title_cn: "珠海沿海旅行",
+    title_en: "A trip to Zhuhai, a coastal city",
+    summary: "去过珠海这座广东沿海城市，比大城市节奏慢更惬意。喜欢在海边散步，海风吹着很舒服。海鲜好吃，会推荐给想要美景美食慢节奏的朋友。",
+    template: "I'd like to recommend a place I've travelled to — Zhuhai, a coastal city in southern China. I went there some time ago, and it left a wonderfully relaxing impression on me. Compared with the fast pace of major metropolises, Zhuhai feels noticeably calmer and more laid-back. One of my favourite things to do there was simply walking along the seaside. The sea breeze was gentle, the view was beautiful, and the whole atmosphere encouraged you to slow down and just be present. Another highlight was definitely the food. Because Zhuhai is right by the sea and strongly influenced by Cantonese food culture, the local seafood is incredibly fresh and delicious. I tried dishes there that I still think about from time to time. I would especially recommend it to people who want a break from the intensity of city life — people who appreciate good food, beautiful coastal views, and a slower, more relaxed pace. It's not a party city or a shopping paradise, but that's exactly what I loved about it. Sometimes the best trips aren't about doing as much as possible, but about enjoying the moment.",
+    key_phrases: ["a coastal city", "left a relaxing impression", "walk along the seaside", "sea breeze", "Cantonese food culture", "a slower pace of life", "just be present"],
+    vocab: { "coastal": "沿海的", "sea breeze": "海风", "laid-back": "悠闲的", "metropolis": "大都市", "intensity": "高强度" },
+    scoring: { fc: "7.5 | 总体印象→具体体验(walk/food)→推荐对象→旅行哲学。compared with / another highlight / sometimes the best trips 层次分明", lr: "7.5 | laid-back / sea breeze / be present / a break from the intensity / enjoy the moment 地道搭配", gra: "7.5 | 分词状语 compared with...、关系从句 people who...、比较 not about...but about...", p: "注意 metropolis / laid-back / Cantonese / atmosphere 发音" }
+  },
+  {
+    id: "story_38",
+    category: "event",
+    title_cn: "看纪录片改变对农业的看法",
+    title_en: "How a documentary changed my view on farming",
+    summary: "以前觉得农业很简单就是种地养动物收粮食，因为城市长大没有直接体验。看了经营农场的纪录片后意识到农业远比想象复杂——天气、土壤、机械、法规、经济压力。从此尊重农民。",
+    template: "I'd like to talk about a time when I changed an important opinion of mine — specifically, my view on farming. For most of my life, I used to think farming was fairly straightforward. In my mind, it was basically about planting seeds, raising some animals, and harvesting crops when the season came. I had this simplistic view because I grew up in a city and had virtually no direct experience with farm life. What made me completely rethink this was watching a documentary series about running a farm. As I watched more episodes, I started to see the incredible complexity behind what I'd dismissed as simple countryside work. Farmers have to deal with unpredictable weather that can destroy a season's work overnight. They need to understand soil science, operate and maintain expensive machinery, comply with layers of government regulations, and somehow manage the constant financial pressure of an industry with very thin profit margins. It honestly opened my eyes. I came away with enormous respect for farmers and the food system I'd always taken for granted. It taught me that many things look simple from the outside but require genuine skill and resilience.",
+    key_phrases: ["used to think", "basic countryside work", "direct experience", "changed my mind", "unpreventable weather", "financial pressure", "taken for granted"],
+    vocab: { "countryside": "乡村", "unpredictable": "不可预测的", "comply with": "遵守", "margin": "利润空间", "simplistic": "过于简化的" },
+    scoring: { fc: "7.5 | 旧观念→原因→触发事件→新认知→深层反思。for most of my life / what made me rethink / I came away with 转折有力", lr: "7.5 | simplistic view / thin profit margins / open one's eyes / take for granted / genuine resilience 精准搭配", gra: "7.5 | 原因状语 because I grew up...、强调句 what made me rethink...、宾语从句 taught me that...", p: "注意 unpredictable / machinery / resilience / simplistic 发音" }
+  },
+  {
+    id: "story_39",
+    category: "people",
+    title_cn: "朋友妹妹爱画画",
+    title_en: "A friend's younger sister who loves drawing",
+    summary: "朋友的妹妹特别喜欢画画，花很多时间画动物花和家庭场景。画技巧不算完美但非常有想象力。通过画画表达感受和想象力，创造自己的小小世界。",
+    template: "I'd like to talk about my friend's younger sister, who is truly passionate about drawing. I first met her when I visited my friend's home, and I was immediately struck by the number of drawings covering the walls of her room. She's still quite young, but she spends a surprising amount of time with her coloured pencils and sketchbooks. She mainly draws animals, flowers, and little family scenes. Her drawings aren't technically perfect, of course — the proportions are sometimes off, and the colours don't always stay within the lines. But what they lack in technical polish, they more than make up for in imagination. She draws cats wearing tiny hats, flowers with smiling faces, and fantastical creatures that exist only in her mind. I think she loves drawing so much because it gives her a way to express what she's feeling and thinking. When adults ask children questions, they don't always know how to put their thoughts into words. But through drawing, she can create her own little world where she sets the rules. I find it genuinely lovely, and I strongly believe children's creativity like this should be nurtured and encouraged rather than corrected.",
+    key_phrases: ["technically perfect", "imaginative", "express her feelings", "create her own little world", "creativity should be encouraged", "more than make up for", "put thoughts into words"],
+    vocab: { "imaginative": "有想象力的", "creativity": "创造力", "nurture": "培养", "fantastical": "奇幻的", "proportion": "比例" },
+    scoring: { fc: "7.5 | 人物引入→作品描述→深层原因→教育反思。but what they lack / I think / I find it lovely 观察→分析→感悟", lr: "7 | technically perfect / make up for / put thoughts into words / nurture creativity 搭配精准", gra: "7.5 | 关系从句 who is truly...、让步 what they lack in...、比较 rather than corrected", p: "注意 imaginative / nurture / fantastical / proportion 发音" }
+  },
+  {
+    id: "story_40",
+    category: "object",
+    title_cn: "家庭老相册",
+    title_en: "A family photo album kept for many years",
+    summary: "家里保存多年的老相册，里面有旅行生日春节各种日常冲洗照片。虽然现在手机存照片，但这本相册更特别。节日全家翻看聊天，让家庭记忆保持鲜活。",
+    template: "I'd like to talk about something that has been kept in my family for many years — a photo album. It's not an expensive or rare object, but it holds enormous sentimental value for us. My parents started compiling it when I was very young. Inside, there are printed photos from family trips, birthday celebrations, Spring Festival gatherings, and many ordinary everyday moments. Some of the photos have faded slightly with time, but that almost adds to their charm. Nowadays, most people, including myself, store thousands of photos on their phones without ever looking at most of them. But there's something fundamentally different about a physical album. When we open it together — usually during festivals or family visits — we don't just glance at the pictures. We linger on each one, share memories, and often end up telling stories that go far beyond what's captured in the frame. It sparks conversations that wouldn't happen otherwise. For me, this album is important because it keeps our family memories alive in a very tangible way. It serves as a reminder of how much time we've spent together and how much we've grown, both individually and as a family.",
+    key_phrases: ["family photo album", "printed photos", "ordinary moments", "look through the album", "keeps memories alive", "sentimental value", "spark conversations"],
+    vocab: { "photo album": "相册", "printed photos": "冲洗照片", "sentimental": "情感的", "tangible": "有形的", "linger": "逗留/细看" },
+    scoring: { fc: "7.5 | 物品→来源→数字时代对比→情感功能。but there's something different / for me 结构完整", lr: "7.5 | sentimental value / add to their charm / linger on / spark conversations / tangible 高分词汇", gra: "7.5 | 分词状语 when we open it...、转折 fundamentally different、比较 beyond what's captured", p: "注意 sentimental / tangible / album / linger 发音" }
+  },
+  {
+    id: "story_41",
+    category: "people",
+    title_cn: "朋友靠AI和网课自学做网站",
+    title_en: "A friend who self-taught web design with AI and online tutorials",
+    summary: "朋友想建个人网站展示作品和背景，但没有编程经验。她没有报正式课程，用在线教程和AI工具自学，不断测试改进。自学让她更灵活更独立。",
+    template: "I'd like to talk about a university friend who taught herself basic web design entirely on her own. She wanted to build a simple personal website to showcase her projects and academic background, but she didn't have any real coding experience when she started. Instead of signing up for a formal course, which can be expensive and time-consuming, she decided to take a different route. She used free online tutorials and AI tools to guide her through the process. Whenever she came across a piece of code she didn't understand, she would either search for explanations online or ask an AI tool to explain it with examples. It was very much a process of trial and error. At first, the website looked quite rough — things were misaligned, colours clashed, and some pages didn't load properly. But she kept testing, tweaking, and improving little by little. After a few weeks, the site looked genuinely professional. I think she chose the self-learning route partly for flexibility — she could learn at her own pace — and partly because she wanted to prove to herself that she could figure things out independently. Of course, learning from a teacher might be more structured and efficient, but her approach gave her something extra: confidence in her ability to solve problems on her own.",
+    key_phrases: ["basic web design", "personal website", "coding experience", "online tutorials", "trial and error", "self-learning route", "at her own pace", "figure things out"],
+    vocab: { "tutorial": "教程", "trial and error": "试错", "tweak": "微调", "misalign": "未对齐", "independently": "独立地" },
+    scoring: { fc: "7.5 | 动机→方法→过程→成果→对比反思。instead of / at first / after a few weeks / of course 逻辑推进流畅", lr: "7.5 | trial and error / at one's own pace / figure things out / take a different route 地道搭配", gra: "7.5 | 关系从句 which can be expensive、让步 of course...might be...but...、宾语从句 prove to herself that...", p: "注意 tutorial / independently / misaligned / genuine 发音" }
+  },
+  {
+    id: "story_42",
+    category: "event",
+    title_cn: "设计个人学术主页",
+    title_en: "Designing a personal academic website",
+    summary: "想做个展示研究背景和项目的个人主页，不能只是堆信息，要简洁有辨识度。需要想象力把学术风格和视觉元素结合。发现想象力在学术展示中也很重要。",
+    template: "I'd like to talk about a time when I had to use my imagination in a somewhat unexpected context — designing a personal academic website. I wanted the site to showcase my research background, publications and projects, but I also wanted it to be visually appealing and memorable. It couldn't just be a wall of text and bullet points. So I had to imagine how to balance an academic, professional tone with some creative visual elements. I thought about the colour palette, the layout, how different sections would flow into each other, and what kind of first impression a visitor would get within the first few seconds of landing on the page. At first, it was quite difficult because I'm not a trained designer and I wasn't used to thinking in visual terms. But with some help from online tools and a lot of trial and adjustment, the concept started to come together. The process made me realise something interesting: imagination isn't only useful in art or storytelling. It's also valuable in academic and professional contexts, where how you present your ideas can be just as important as the ideas themselves. A little creativity can make your work more accessible and engaging to others.",
+    key_phrases: ["use my imagination", "personal academic website", "visual elements", "layout", "first impression", "academic presentation", "come together", "accessible and engaging"],
+    vocab: { "imagination": "想象力", "layout": "布局", "visual elements": "视觉元素", "palette": "调色板", "accessible": "可理解的" },
+    scoring: { fc: "7.5 | 任务→挑战→解决→意外收获。so I had to imagine / at first / but with some help / the process made me realise 因果递进", lr: "7.5 | wall of text / landing on the page / come together / accessible and engaging 地道搭配", gra: "7.5 | 宾语从句 realise that... / how to balance...、比较 as important as the ideas themselves", p: "注意 imagination / palette / accessible / engaging 发音" }
+  },
+  {
+    id: "story_43",
+    category: "event",
+    title_cn: "鼓励组员做英文展示",
+    title_en: "Encouraging a groupmate to give an English presentation",
+    summary: "暑期课程小组需要做英文展示但一位组员非常紧张不想上台。鼓励他承担一小部分，一起练习了几次，最后他完成得相当不错。知道这是建立信心的好机会。",
+    template: "I'd like to talk about a time when I encouraged someone to do something they were genuinely afraid of. It happened during a summer programme where our group had to deliver a final presentation in English. One of my groupmates was extremely nervous about speaking on stage. He was worried that his English wasn't good enough, that he would forget his lines, and that he would embarrass himself in front of everyone. He initially wanted to avoid the speaking part entirely and just handle the background research. I understood his fear completely, but I also knew this was a rare opportunity to build confidence. So I encouraged him to take on just a small section — the part he knew best and felt most comfortable with. We practised together several times. I helped him simplify some of his sentences and we rehearsed the transitions between his part and mine until he felt more natural. When the presentation day came, he delivered his section clearly and without freezing up. The relief and pride on his face afterwards told me everything. I encouraged him not because I wanted the presentation to be perfect, but because I believed that facing a fear, even in a small way, is how you grow.",
+    key_phrases: ["encourage someone to", "speak on stage", "avoiding the presentation", "practise together", "build confidence", "freeze up", "face a fear"],
+    vocab: { "encourage": "鼓励", "on stage": "上台", "confidence": "自信", "rehearse": "排练", "freeze up": "僵住" },
+    scoring: { fc: "7.5 | 情景→冲突→行动→结果→动机。he initially wanted / so I encouraged / when the day came / I encouraged him not because...but because 叙事+反思完整", lr: "7.5 | build confidence / freeze up / take on a section / face a fear 地道口语搭配", gra: "7 | not because...but because...、宾语从句 knew this was...、分词状语 speaking on stage", p: "注意 encourage / rehearse / confidence 发音" }
+  },
+  {
+    id: "story_44",
+    category: "object",
+    title_cn: "想去海外做短期研究助理",
+    title_en: "A short-term overseas research assistant position I'd like to have",
+    summary: "想去欧洲国家做暑期研究助理。通过读论文和关注国际研究组了解到这类机会。想在深造前体验国际学术环境，提高英语沟通能力。",
+    template: "A short-term job I would like to have in a foreign country is to work as a summer research assistant in a research group abroad, perhaps somewhere in Europe. I first learned about this kind of opportunity through reading academic papers and following the work of international research groups in my field. The job itself would likely involve tasks such as reviewing literature, processing data, assisting with experiments, and participating in discussions with other students and supervisors. What attracts me most is the chance to experience an international academic environment before committing to longer-term plans. I genuinely want to see how researchers from different cultural and linguistic backgrounds collaborate, how they communicate their ideas, and what the day-to-day rhythm of research looks like in a different setting. Beyond the academic benefits, it would also be an invaluable opportunity to improve my English communication skills in a professional context — not just in writing, but in meetings, presentations, and informal discussions. I know it would be challenging, both academically and personally. But I believe the experience would broaden my perspective in ways that staying in my comfort zone never could.",
+    key_phrases: ["summer research assistant", "international academic environment", "process data", "improve communication", "academic career", "broaden my perspective", "comfort zone"],
+    vocab: { "research assistant": "研究助理", "overseas": "海外的", "collaborate": "合作", "invaluable": "宝贵的", "broaden": "拓宽" },
+    scoring: { fc: "7.5 | 工作定义→来源→内容→动机→预期收获。what attracts me most / beyond the academic benefits / I know it would be 结构完整", lr: "7.5 | day-to-day rhythm / broaden perspective / invaluable opportunity / professional context 学术搭配精准", gra: "7.5 | 主语从句 what attracts me most is...、宾语从句 see how...、比较 in ways that...never could", p: "注意 invaluable / broaden / collaborate / literature 发音" }
+  },
+  {
+    id: "story_45",
+    category: "object",
+    title_cn: "The Secret Life of Pets 动画电影",
+    title_en: "The Secret Life of Pets animated film",
+    summary: "《爱宠大机密》讲狗 Max 和主人过着舒适生活，一天主人带回另一只狗 Duke，Max 嫉妒不习惯分享关注。两只狗在城市迷路经历搞笑冒险。可爱轻松有想象力。",
+    template: "I'd like to talk about an animated film I watched called The Secret Life of Pets. The main character is a dog named Max, who lives a very comfortable life with his owner. His daily routine is basically perfect — until one day, his owner brings home another dog called Duke. Suddenly, Max has to share his space, his toys, and most importantly, his owner's attention. He's not used to it at all, and he becomes quite jealous. Things take a dramatic turn when Max and Duke end up getting lost together in the city. They have to navigate through unfamiliar streets, encounter some fairly intimidating characters, and somehow find their way back home. Through a series of funny and sometimes touching adventures, they gradually move from being rivals to becoming genuine friends. What I enjoyed most about this film is that it's light-hearted and easy to watch, but it also carries a subtle message about friendship, jealousy and learning to share. It makes you wonder what your own pets might be thinking and feeling when you're not around. The idea that animals have their own rich inner worlds and social dynamics is both amusing and surprisingly thought-provoking.",
+    key_phrases: ["animated film", "not used to sharing attention", "get lost in the city", "a series of adventures", "light-hearted", "have their own little world", "inner worlds"],
+    vocab: { "animated film": "动画电影", "jealous": "嫉妒的", "adventure": "冒险", "intimidating": "令人生畏的", "thought-provoking": "引人深思的" },
+    scoring: { fc: "7.5 | 人物→冲突→冒险→关系转变→深层含义。until one day / things take a turn / what I enjoyed most 叙事节奏好", lr: "7 | light-hearted / navigate through / rich inner worlds / social dynamics / thought-provoking 地道搭配", gra: "7.5 | 关系从句 who lives...、时间状语 when Max and Duke end up...、宾语从句 makes you wonder what...", p: "注意 jealous / intimidating / thought-provoking / dynamics 发音" }
+  }
+];
+
+// ============ CUE CARDS DATA ============
+const cueCards = [
+  // ===== 人物 (People) =====
+  { id:"new05", category:"people", tag:"new", topic_cn:"发小", topic_en:"Describe a friend from your childhood",
+    bullets: ["Who he/she is", "Where and how you met each other", "What you often did together", "And explain what made you like him/her"],
+    mapped_stories: ["story_29"] },
+  { id:"new07", category:"people", tag:"new", topic_cn:"喜欢在家/花园种菜或花的人", topic_en:"Describe a person who loves to grow plants at home or in the garden",
+    bullets: ["Who this person is", "What plants he/she grows", "How he/she grows the plants", "And explain why he/she loves growing plants"],
+    mapped_stories: ["story_12"], note:"" },
+  { id:"new09", category:"people", tag:"new", topic_cn:"想从事医疗行业的人", topic_en:"Describe a person you know who would like to choose a career in the medical field",
+    bullets: ["When you knew him/her", "When he/she started to think about that", "What he/she would like to do", "And explain why he/she would like to choose this career"],
+    mapped_stories: ["story_11"], note:"" },
+  { id:"new10", category:"people", tag:"new", topic_cn:"拥有成功事业的人", topic_en:"Describe a person you know who has a successful business",
+    bullets: ["Who this person is", "How you got to know him/her", "Why and how he/she started the business", "What business he/she does", "And explain why you think the business is successful"],
+    mapped_stories: ["story_19"], note:"需新素材" },
+  { id:"new20", category:"people", tag:"new", topic_cn:"擅长学习和说语言的人", topic_en:"Describe a person who is good at learning and speaking new languages",
+    bullets: ["How you got to know him/her", "How he/she learns a new language", "What languages he/she can speak", "And explain how you feel about him/her"],
+    mapped_stories: ["story_10"], note:"" },
+  { id:"new30", category:"people", tag:"new", topic_cn:"克服困难成功的人", topic_en:"Describe a person who met difficulties but succeeded",
+    bullets: ["Who this person is", "What difficulties he met", "How he overcame the difficulties", "And explain how you feel about him"],
+    mapped_stories: ["story_19", "story_26"] },
+  { id:"old02", category:"people", tag:"old", topic_cn:"想见的名人", topic_en:"Describe a famous person you would like to meet",
+    bullets: ["Who he/she is", "How you knew him/her", "How/where you would like to meet him/her", "And explain why you would like to meet him/her"],
+    mapped_stories: ["story_19"], note:"" },
+  { id:"old07", category:"people", tag:"old", topic_cn:"喜欢画画的孩子", topic_en:"Describe a child who loves drawing/painting",
+    bullets: ["Who he/she is", "How/when you knew him/her", "How often he/she draws/paints", "And explain why you think he/she loves drawing/painting"],
+    mapped_stories: ["story_39"], note:"需新素材" },
+  { id:"old08", category:"people", tag:"old", topic_cn:"擅长做计划的人", topic_en:"Describe a person who makes plans a lot and is good at planning",
+    bullets: ["Who he/she is", "How you knew him/her", "What plans he/she makes", "And explain how you feel about this person"],
+    mapped_stories: ["story_32"] },
+  { id:"old13", category:"people", tag:"old", topic_cn:"机智解决问题的人", topic_en:"Describe a person who solved a problem in a smart way",
+    bullets: ["Who this person is", "What the problem was", "How he/she solved it", "And explain why you think he/she did it in a smart way"],
+    mapped_stories: ["story_23"] },
+  { id:"old16", category:"people", tag:"old", topic_cn:"朋友自学", topic_en:"Describe one of your friends who learned something without a teacher",
+    bullets: ["Who he/she is", "What he/she learned", "Why he/she learned this", "And explain whether it would be easier to learn from a teacher"],
+    mapped_stories: ["story_10", "story_41"], note:"" },
+  { id:"old20", category:"people", tag:"old", topic_cn:"乐于助人的人", topic_en:"Describe a person who often helps others",
+    bullets: ["Who this person is", "How often he/she helps others", "How/why he/she helps others", "And how you feel about this person"],
+    mapped_stories: ["story_1", "story_7"] },
+  { id:"old23", category:"people", tag:"old", topic_cn:"爱护自然的人", topic_en:"Describe a person who likes to look after the natural world",
+    bullets: ["Who this person is", "What he or she does", "How he or she does it", "How often", "And explain how you feel about this person"],
+    mapped_stories: ["story_12"] },
+
+  // ===== 事物 (Objects) =====
+  { id:"new02", category:"object", tag:"new", topic_cn:"有趣视频", topic_en:"Describe an interesting video",
+    bullets: ["When and where you watched it", "What it is about", "Why you watched it", "And explain how you feel about it"],
+    mapped_stories: ["story_17"], note:"" },
+  { id:"new08", category:"object", tag:"new", topic_cn:"想颁布的新法律", topic_en:"Describe a new law you would like to introduce in your country",
+    bullets: ["What law it is", "What changes this law brings", "Whether this new law will be popular", "How you came up with the new law", "And explain how you feel about this new law"],
+    mapped_stories: ["story_20"], note:"" },
+  { id:"new14", category:"object", tag:"new", topic_cn:"特殊场合下吃的食物", topic_en:"Describe a kind of food that you ate at special occasions",
+    bullets: ["What it is", "What occasion it was", "Why you would like to eat it", "And explain how you feel about it"],
+    mapped_stories: ["story_33"], note:"" },
+  { id:"new16", category:"object", tag:"new", topic_cn:"名人广告", topic_en:"Describe an advertisement with a famous person in it",
+    bullets: ["Who the person is", "Where you can see it", "What the advertisement is about", "And explain how you feel about the advertisement"],
+    mapped_stories: ["story_34"], note:"需新素材" },
+  { id:"new17", category:"object", tag:"new", topic_cn:"当地新闻", topic_en:"Describe a piece of local news that people are interested in",
+    bullets: ["What it was about", "Where you saw/heard it", "Who was involved", "And explain why people were interested in it"],
+    mapped_stories: ["story_25"], note:"" },
+  { id:"new24", category:"object", tag:"new", topic_cn:"最近看过的电视/网络节目", topic_en:"Describe a TV show/online program you have watched recently",
+    bullets: ["What it is", "What it is about", "How often you watch it", "And explain how you feel about it"],
+    mapped_stories: ["story_17", "story_22"], note:"AI视频/Clarkson农场纪录片" },
+  { id:"new26", category:"object", tag:"new", topic_cn:"包含动物的故事或书", topic_en:"Describe a story/book with animals in it",
+    bullets: ["What animals are in it", "What the story/book is about", "Why you read the story/book", "And explain what you think of this story/book"],
+    mapped_stories: ["story_45"], note:"" },
+  { id:"new28", category:"object", tag:"new", topic_cn:"保护环境的法律", topic_en:"Describe a law on environmental protection",
+    bullets: ["What it is", "How you first learned about it", "Who benefits from it", "And explain how you feel about this law"],
+    mapped_stories: ["story_36"], note:"" },
+  { id:"old01", category:"object", tag:"old", topic_cn:"完美工作", topic_en:"Describe a perfect job you would like to have in the future",
+    bullets: ["What it is", "How you knew it", "What you need to learn to get this job", "And explain why you think it is a perfect job for you"],
+    mapped_stories: ["story_16"] },
+  { id:"old09", category:"object", tag:"old", topic_cn:"Apps/程序", topic_en:"Describe a program or app on your computer or phone",
+    bullets: ["What it is", "When/how you use it", "Where you found it", "And explain how you feel about it"],
+    mapped_stories: ["story_5"], note:"ChatGPT/Gemini" },
+  { id:"old10", category:"object", tag:"old", topic_cn:"想拥有的科技产品", topic_en:"Describe a piece of technology (not a phone) that you would like to own",
+    bullets: ["What it is", "How much it costs", "How you knew it", "And explain why you would like to own it"],
+    mapped_stories: ["story_28"], note:"AI工具/MacBook" },
+  { id:"old12", category:"object", tag:"old", topic_cn:"对家庭重要的东西", topic_en:"Describe something important that has been kept in your family for a long time",
+    bullets: ["What it is", "When your family had it", "How your family got it", "And explain why it is important to your family"],
+    mapped_stories: ["story_40"], note:"需新素材" },
+  { id:"old15", category:"object", tag:"old", topic_cn:"近期观影", topic_en:"Describe a movie you watched and enjoyed recently",
+    bullets: ["When and where you watched it", "Who you watched it with", "What it was about", "And explain why you watched this movie"],
+    mapped_stories: ["story_45"], note:"需新素材" },
+  { id:"old19", category:"object", tag:"old", topic_cn:"花费超过预期的物品", topic_en:"Describe an item on which you spent more than expected",
+    bullets: ["What it is", "How much you spent on it", "Why you bought it", "And explain why you think you spent more than expected"],
+    mapped_stories: ["story_28"], note:"" },
+  { id:"old22", category:"object", tag:"old", topic_cn:"想从事的短期海外工作", topic_en:"Describe a short-term job you want to have in a foreign country",
+    bullets: ["Where it is", "How you know of it", "What the job is", "And explain why you want to do it"],
+    mapped_stories: ["story_44"] },
+
+  // ===== 事件 (Events) =====
+  { id:"new03", category:"event", tag:"new", topic_cn:"早起经历", topic_en:"Describe a time when you got up early",
+    bullets: ["When it was", "What you did", "Why you got up early", "And how you felt about it"],
+    mapped_stories: ["story_30"], note:"" },
+  { id:"new11", category:"event", tag:"new", topic_cn:"近期改变的计划", topic_en:"Describe a plan that you had to change recently",
+    bullets: ["When this happened", "What made you change the plan", "What the new plan was", "And how you felt about the change"],
+    mapped_stories: ["story_31"] },
+  { id:"new12", category:"event", tag:"new", topic_cn:"在团队中工作", topic_en:"Describe a time when you worked in a group",
+    bullets: ["What you did", "Who you worked with", "What problems you faced", "And explain why you worked in the group"],
+    mapped_stories: ["story_32"] },
+  { id:"new13", category:"event", tag:"new", topic_cn:"长期追求", topic_en:"Describe an ambition you have had for a long time",
+    bullets: ["What it was", "How you got the desire to want to achieve it", "What you have to do to achieve it", "And explain how you feel about it"],
+    mapped_stories: ["story_16"] },
+  { id:"new15", category:"event", tag:"new", topic_cn:"看过的现场比赛", topic_en:"Describe a live sports event you watched and liked",
+    bullets: ["What it was", "When and where you watched it", "Who you watched it with", "And explain why you liked it"],
+    mapped_stories: ["story_26"], note:"" },
+  { id:"new18", category:"event", tag:"new", topic_cn:"电子产品故障", topic_en:"Describe a time when you had a problem with using an electronic device",
+    bullets: ["When it happened", "Where it happened", "What the problem was", "And explain how you solved the problem at last"],
+    mapped_stories: ["story_23"], note:"" },
+  { id:"new19", category:"event", tag:"new", topic_cn:"重要决定", topic_en:"Describe an important decision that you made",
+    bullets: ["What the decision was", "How you made your decision", "What the results of your decision were", "And explain why it was important"],
+    mapped_stories: ["story_35"] },
+  { id:"new21", category:"event", tag:"new", topic_cn:"长时间未收到回复", topic_en:"Describe a time when you sent a message or an email to someone but received no reply for a long time",
+    bullets: ["Who you sent it to", "What the message/email was about", "Whether you finally received the reply", "And explain how you felt about the experience"],
+    mapped_stories: ["story_9"], note:"" },
+  { id:"new22", category:"event", tag:"new", topic_cn:"遇到的科技问题", topic_en:"Describe a challenging technological problem you faced",
+    bullets: ["What the problem was", "When and where you faced it", "How challenging it was", "And explain how you solved it"],
+    mapped_stories: ["story_28"] },
+  { id:"new27", category:"event", tag:"new", topic_cn:"别人帮助解决问题", topic_en:"Describe a time when a person did something to help you solve a problem",
+    bullets: ["Who the person is", "What the problem was", "How he/she helped you", "And explain how you felt about the experience"],
+    mapped_stories: ["story_7"] },
+  { id:"new29", category:"event", tag:"new", topic_cn:"改变重要想法", topic_en:"Describe a time when you changed an important opinion of yours",
+    bullets: ["When you changed your opinion", "What the original opinion was", "Why you changed it", "And explain how you felt about the experience"],
+    mapped_stories: ["story_38"], note:"需新素材" },
+  { id:"old03", category:"event", tag:"old", topic_cn:"禁止用手机的场合", topic_en:"Describe an occasion when you were not allowed to use your mobile phone",
+    bullets: ["When it was", "Where it was", "Why you were not allowed to use your mobile phone", "And how you felt about it"],
+    mapped_stories: ["story_24"] },
+  { id:"old04", category:"event", tag:"old", topic_cn:"微笑的场合", topic_en:"Describe an occasion when many people were smiling",
+    bullets: ["When it happened", "Who you were with", "What happened", "And explain why most people were smiling"],
+    mapped_stories: ["story_33"] },
+  { id:"old05", category:"event", tag:"old", topic_cn:"为家人骄傲", topic_en:"Describe a time when you felt proud of a family member",
+    bullets: ["When it happened", "Who the person is", "What the person did", "And explain why you felt proud of him/her"],
+    mapped_stories: ["story_12"] },
+  { id:"old06", category:"event", tag:"old", topic_cn:"给别人建议", topic_en:"Describe a time when you gave advice to others",
+    bullets: ["When it was", "To whom you gave the advice", "What the advice was", "And explain why you gave the advice"],
+    mapped_stories: ["story_9"] },
+  { id:"old11", category:"event", tag:"old", topic_cn:"自行车/摩托车/汽车旅行", topic_en:"Describe a bicycle/motorcycle/car trip you would like to take",
+    bullets: ["Who you would like to go with", "Where you would like to go", "When you would like to go", "And explain why you would like to go by bicycle/motorcycle/car"],
+    mapped_stories: ["story_37"] },
+  { id:"old14", category:"event", tag:"old", topic_cn:"不享受的音乐活动", topic_en:"Describe an event you attended in which you didn't enjoy the music played",
+    bullets: ["What it was", "Who you went with", "Why you decided to go there", "And explain why you didn't enjoy it"],
+    mapped_stories: ["story_27"], note:"" },
+  { id:"old18", category:"event", tag:"old", topic_cn:"发挥想象力", topic_en:"Describe a time you needed to use your imagination",
+    bullets: ["When it was", "Why you needed to use imagination", "How difficult or easy it was", "And explain how you felt about it"],
+    mapped_stories: ["story_42"], note:"需新素材" },
+  { id:"old21", category:"event", tag:"old", topic_cn:"鼓励别人做不愿做的事", topic_en:"Describe a time when you encouraged someone to do something that he/she didn't want to do",
+    bullets: ["Who he or she is", "What you encouraged him/her to do", "How he/she reacted", "And explain why you encouraged him/her to do it"],
+    mapped_stories: ["story_43"] },
+
+  // ===== 地点 (Places) =====
+  { id:"new01", category:"place", tag:"new", topic_cn:"喜欢或不喜欢的高建筑", topic_en:"Describe a tall building you like or dislike",
+    bullets: ["What it is used for", "Where it is", "What it looks like", "And explain why you like/dislike it"],
+    mapped_stories: ["story_18"] },
+  { id:"new04", category:"place", tag:"new", topic_cn:"无聊的地方", topic_en:"Describe a boring place",
+    bullets: ["Where it is", "Who you went there with", "What you did there", "And explain why you think it is a boring place"],
+    mapped_stories: ["story_24"] },
+  { id:"new06", category:"place", tag:"new", topic_cn:"去过的最喜欢的城市", topic_en:"Describe your favorite city that you have visited",
+    bullets: ["Where it is", "How you knew it", "When you visited it", "And explain why it is your favourite city"],
+    mapped_stories: ["story_14"] },
+  { id:"new23", category:"place", tag:"new", topic_cn:"推荐旅行过的地方", topic_en:"Describe a place you have travelled to that you would like to recommend to others",
+    bullets: ["What it is", "Where it is", "What you saw and did there", "And explain why you would like to recommend it to others"],
+    mapped_stories: ["story_37"] },
+  { id:"new25", category:"place", tag:"new", topic_cn:"喜欢拜访但不想住的家", topic_en:"Describe a home that you like to visit but do not want to live in",
+    bullets: ["Where it is", "What it is like", "Why you like to visit it", "And explain why you would not like to live there"],
+    mapped_stories: ["story_13"], note:"" },
+  { id:"old17", category:"place", tag:"old", topic_cn:"有趣的建筑", topic_en:"Describe an interesting building",
+    bullets: ["Where it is", "What it looks like", "What function it has", "And explain why you think it is interesting"],
+    mapped_stories: ["story_18"], note:"" },
+  { id:"old24", category:"place", tag:"old", topic_cn:"去过且喜欢的城市", topic_en:"Describe a city you enjoyed visiting",
+    bullets: ["Where it is", "When you visited it", "How long you stayed there", "What you did there", "And explain why you enjoyed visiting it"],
+    mapped_stories: ["story_14"] },
+  { id:"old25", category:"place", tag:"old", topic_cn:"购物场所", topic_en:"Describe a place where you enjoy shopping",
+    bullets: ["Where it is", "How often you visit it", "What you usually buy at the mall", "And explain why it is a good place for shopping"],
+    mapped_stories: ["story_15"], note:"" }
+];
+
+
+const examiners = [
+  {
+    id: 0, name: "Mei Lin", title: "IELTS Examiner · 12 years",
+    img: "images/examiner_asian_female.jpg"
+  },
+  {
+    id: 1, name: "William Harris", title: "IELTS Examiner · 20 years",
+    img: "images/examiner_white_male.jpg"
+  },
+  {
+    id: 2, name: "Carlos Mendez", title: "IELTS Examiner · 10 years",
+    img: "images/examiner_latino_male.jpg"
+  },
+  {
+    id: 3, name: "Grace Thompson", title: "IELTS Examiner · 15 years",
+    img: "images/examiner_black_female.jpg"
+  }
+];
+let currentExaminer = examiners[Math.floor(Math.random() * examiners.length)];
+
+function pickExaminer() {
+  currentExaminer = examiners[Math.floor(Math.random() * examiners.length)];
+  const el = document.getElementById('examinerAvatar');
+  if (el) el.innerHTML = '<img src="' + currentExaminer.img + '" style="width:100%;height:100%;object-fit:cover;" alt="' + currentExaminer.name + '">';
+  const nameEl = document.getElementById('examinerName');
+  if (nameEl) nameEl.textContent = currentExaminer.name;
+  const titleEl = document.getElementById('examinerTitle');
+  if (titleEl) titleEl.textContent = currentExaminer.title;
+}
+
+// ============ APP STATE ============
+let currentCard = null;
+let currentCategory = 'all';
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+let timerType = '';
+
+// ============ FUNCTIONS ============
+function getFilteredCards() {
+  if (currentCategory === 'all') return cueCards;
+  return cueCards.filter(c => c.category === currentCategory);
+}
+
+function drawCard(filterCategory) {
+  // If specific category passed, use it; otherwise use current
+  const cat = filterCategory || currentCategory;
+  const pool = cat === 'all' ? cueCards : cueCards.filter(c => c.category === cat);
+  if (pool.length === 0) return;
+
+  const idx = Math.floor(Math.random() * pool.length);
+  currentCard = pool[idx];
+  pickExaminer();
+  renderCard(currentCard);
+
+  // Reset timer
+  stopTimer();
+  document.getElementById('timerDisplay').textContent = '1:00';
+  document.getElementById('timerLabel').textContent = '准备计时';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressBar').classList.remove('warning');
+  document.getElementById('btnPrep').style.display = '';
+  document.getElementById('btnSpeak').style.display = 'none';
+}
+
+function renderCard(card) {
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('cueContent').style.display = 'block';
+
+  // Tag
+  const tagEl = document.getElementById('cueTag');
+  tagEl.textContent = card.tag === 'new' ? '5月新题' : '保留旧题';
+  tagEl.className = 'cue-tag ' + (card.tag === 'new' ? 'tag-new' : 'tag-old');
+
+  // Category
+  const catMap = { people:'人物', object:'事物', event:'事件', place:'地点' };
+  document.getElementById('cueCat').textContent = catMap[card.category];
+
+  // Topic
+  document.getElementById('cueTopic').textContent = card.topic_en;
+
+  // Bullets
+  const bulletsEl = document.getElementById('cueBullets');
+  bulletsEl.innerHTML = card.bullets.map(b => '<li>' + b + '</li>').join('');
+
+  // Timer buttons
+  document.getElementById('btnPrep').style.display = '';
+  document.getElementById('btnSpeak').style.display = 'none';
+
+  // Show feedback panel with history
+  document.getElementById('feedbackPanel').style.display = 'block';
+  renderHistory();
+}
+
+
+
+// ============ TIMER ============
+function startPrep() {
+  startTimer(60, '准备中');
+  document.getElementById('btnPrep').style.display = 'none';
+  document.getElementById('btnSpeak').style.display = '';
+}
+
+function startSpeaking() {
+  startTimer(120, '作答中');
+  document.getElementById('btnPrep').style.display = 'none';
+  document.getElementById('btnSpeak').style.display = 'none';
+}
+
+function startTimer(seconds, label) {
+  stopTimer();
+  timerSeconds = seconds;
+  timerType = label;
+  timerRunning = true;
+  document.getElementById('timerLabel').textContent = label;
+  updateTimerDisplay();
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressBar').classList.remove('warning');
+
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    updateTimerDisplay();
+    const total = label === '准备中' ? 60 : 120;
+    const pct = (timerSeconds / total) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+
+    if (timerSeconds <= 10) {
+      document.getElementById('timerDisplay').classList.add('warning');
+      document.getElementById('progressBar').classList.add('warning');
+    }
+
+    if (timerSeconds <= 0) {
+      stopTimer();
+      // Play a beep sound
+      try { const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator(); const gain = ctx.createGain();
+        osc.connect(gain); gain.connect(ctx.destination);
+        osc.frequency.value = 800; osc.type = 'sine';
+        gain.gain.value = 0.3;
+        osc.start(); osc.stop(ctx.currentTime + 0.3);
+        setTimeout(() => { osc.start(); osc.stop(ctx.currentTime + 0.3); }, 400);
+        setTimeout(() => { osc.start(); osc.stop(ctx.currentTime + 0.5); }, 800);
+      } catch(e) {}
+      document.getElementById('timerLabel').textContent = '⏰ 时间到!';
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  document.getElementById('timerDisplay').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+}
+
+function stopTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+  timerRunning = false;
+  document.getElementById('timerDisplay').classList.remove('warning');
+  document.getElementById('progressBar').classList.remove('warning');
+}
+
+// ============ CATEGORY TABS ============
+document.getElementById('tabs').addEventListener('click', function(e) {
+  const tab = e.target.closest('.tab');
+  if (!tab) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  currentCategory = tab.dataset.cat;
+  drawCard(currentCategory);
+});
+
+// ============ STORY LIBRARY MODAL ============
+function openStoryLibrary() {
+  const list = document.getElementById('storyList');
+  const catMap = { people:'人物', object:'事物', event:'事件', place:'地点' };
+  const allStories = getAllStories();
+  document.getElementById('storyLibTitle').textContent = '📖 我的故事素材库 (' + allStories.length + '个)';
+  const customIds = new Set(loadCustomStories().map(s => s.id));
+
+  // Count how many cue cards each story covers
+  const storyCounts = {};
+  allStories.forEach(s => { storyCounts[s.id] = 0; });
+  cueCards.forEach(c => {
+    (c.mapped_stories || []).forEach(sid => {
+      if (storyCounts[sid] !== undefined) storyCounts[sid]++;
+    });
+  });
+
+  list.innerHTML = allStories.map(s => {
+    const isCustom = customIds.has(s.id);
+    const count = storyCounts[s.id] || 0;
+    const coveredCards = cueCards.filter(c => (c.mapped_stories || []).includes(s.id));
+    const coveredList = coveredCards.slice(0, 6).map(c => c.topic_cn).join('、');
+    const cls = isCustom ? ' custom-story-item' : '';
+    const editBtn = isCustom ? '<button class="del-story" onclick="event.stopPropagation();openAddStoryModal(getStoryById(\'' + s.id + '\'))" title="编辑">✏️</button>' : '';
+
+    return '<div style="padding:14px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px;" class="' + cls + '">' +
+      editBtn +
+      '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+      '<strong>' + s.title_cn + (isCustom ? ' <span style="font-size:10px;background:#fef3c7;color:#92400e;padding:1px 6px;border-radius:3px;">自定义</span>' : '') + '</strong>' +
+      '<span style="font-size:11px;background:var(--accent-light);color:var(--accent);padding:2px 8px;border-radius:4px;">' + catMap[s.category] + ' · 覆盖' + count + '题</span>' +
+      '</div>' +
+      '<p style="font-size:13px;color:#555;margin-top:6px;">' + s.summary + '</p>' +
+      '<p style="font-size:12px;color:var(--muted);margin-top:6px;">💬 ' + s.key_phrases.join(' · ') + '</p>' +
+      (coveredList ? '<p style="font-size:11px;color:var(--accent);margin-top:4px;">📋 可覆盖: ' + coveredList + '</p>' : '') +
+      (s.vocab && Object.keys(s.vocab).length > 0 ? '<p style="font-size:11px;color:#92400e;margin-top:4px;">📝 ' + Object.entries(s.vocab).map(([k,v]) => k + '(' + v + ')').join(' · ') + '</p>' : '') +
+      '</div>';
+  }).join('');
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeStoryLibrary(e) {
+  if (e && e.target !== document.getElementById('modalOverlay')) return;
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+
+// ============ CUSTOM STORIES (localStorage) ============
+function loadCustomStories() {
+  try { return JSON.parse(localStorage.getItem('ielts_custom_stories')) || []; }
+  catch(e) { return []; }
+}
+
+function saveCustomStoriesToStorage(arr) {
+  localStorage.setItem('ielts_custom_stories', JSON.stringify(arr));
+}
+
+function getAllStories() {
+  return [...stories, ...loadCustomStories()];
+}
+
+function getStoryById(id) {
+  return getAllStories().find(s => s.id === id);
+}
+
+function openAddStoryModal(prefill) {
+  document.getElementById('addStoryTitle').textContent = prefill && prefill.id ? '✏️ 编辑素材' : '➕ 添加新素材';
+  document.getElementById('asCategory').value = prefill ? prefill.category || 'event' : 'event';
+  document.getElementById('asTitleCn').value = prefill ? prefill.title_cn || '' : '';
+  document.getElementById('asTitleEn').value = prefill ? prefill.title_en || '' : '';
+  document.getElementById('asSummary').value = prefill ? prefill.summary || '' : '';
+  document.getElementById('asPhrases').value = prefill ? (prefill.key_phrases || []).join(', ') : '';
+  document.getElementById('asVocab').value = prefill && prefill.vocab ? Object.entries(prefill.vocab).map(([k,v]) => k+':'+v).join(', ') : '';
+  document.getElementById('asEditId').value = prefill && prefill.id ? prefill.id : '';
+  document.getElementById('asDeleteBtn').style.display = prefill && prefill.id ? '' : 'none';
+  document.getElementById('addStoryOverlay').classList.add('open');
+}
+
+function closeAddStoryModal(e) {
+  if (e && e.target !== document.getElementById('addStoryOverlay')) return;
+  document.getElementById('addStoryOverlay').classList.remove('open');
+}
+
+function saveCustomStory() {
+  const titleCn = document.getElementById('asTitleCn').value.trim();
+  const titleEn = document.getElementById('asTitleEn').value.trim();
+  const summary = document.getElementById('asSummary').value.trim();
+  if (!titleCn || !summary) { alert('请至少填写中文标题和内容摘要'); return; }
+
+  const phrasesStr = document.getElementById('asPhrases').value.trim();
+  const key_phrases = phrasesStr ? phrasesStr.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+  const vocabStr = document.getElementById('asVocab').value.trim();
+  const vocab = {};
+  if (vocabStr) {
+    vocabStr.split(',').forEach(pair => {
+      const [k, v] = pair.split(':').map(s => s.trim());
+      if (k && v) vocab[k] = v;
+    });
+  }
+
+  const editId = document.getElementById('asEditId').value;
+  const customStories = loadCustomStories();
+
+  const storyData = {
+    id: editId || ('custom_' + Date.now()),
+    category: document.getElementById('asCategory').value,
+    title_cn: titleCn,
+    title_en: titleEn || titleCn,
+    summary: summary,
+    key_phrases: key_phrases,
+    vocab: vocab
+  };
+
+  if (editId) {
+    const idx = customStories.findIndex(s => s.id === editId);
+    if (idx >= 0) customStories[idx] = storyData;
+  } else {
+    customStories.push(storyData);
+  }
+
+  saveCustomStoriesToStorage(customStories);
+  document.getElementById('addStoryOverlay').classList.remove('open');
+  openStoryLibrary();
+}
+
+function deleteCustomStory() {
+  const editId = document.getElementById('asEditId').value;
+  if (!editId) return;
+  if (!confirm('确定删除这个素材吗？')) return;
+  let customStories = loadCustomStories();
+  customStories = customStories.filter(s => s.id !== editId);
+  saveCustomStoriesToStorage(customStories);
+  document.getElementById('addStoryOverlay').classList.remove('open');
+  openStoryLibrary();
+}
+
+function upgradeToStory(historyId) {
+  const history = loadHistory();
+  const entry = history.find(h => h.id === historyId);
+  if (!entry) return;
+
+  const catMap = { people:'人物', object:'事物', event:'事件', place:'地点' };
+  openAddStoryModal({
+    category: entry.category,
+    title_cn: entry.cardTopicCn,
+    title_en: entry.cardTopic,
+    summary: entry.transcript.split('.')[0].trim() || entry.transcript.substring(0, 100),
+    key_phrases: entry.expressionsUsed || [],
+    vocab: {}
+  });
+}
+
+
+// ============ AI POLISH ============
+function loadSettings() {
+  try {
+    return JSON.parse(localStorage.getItem('ielts_ai_settings')) || { provider: 'gemini', key: '' };
+  } catch(e) { return { provider: 'gemini', key: '' }; }
+}
+
+function saveSettings() {
+  const settings = {
+    provider: document.getElementById('aiProvider').value,
+    key: document.getElementById('aiKey').value.trim()
+  };
+  localStorage.setItem('ielts_ai_settings', JSON.stringify(settings));
+}
+
+function openSettings() {
+  const settings = loadSettings();
+  document.getElementById('aiProvider').value = settings.provider;
+  document.getElementById('aiKey').value = settings.key;
+  document.getElementById('settingsOverlay').classList.add('open');
+}
+
+function closeSettings(e) {
+  if (e && e.target !== document.getElementById('settingsOverlay')) return;
+  document.getElementById('settingsOverlay').classList.remove('open');
+}
+
+async function polishText() {
+  const settings = loadSettings();
+  if (!settings.key) {
+    alert('请先在 ⚙️ 设置中填入 API Key');
+    openSettings();
+    return;
+  }
+
+  const input = document.getElementById('aiInput').value.trim();
+  if (!input) {
+    alert('请先用中文写一段回答');
+    return;
+  }
+
+  const btn = document.getElementById('btnPolish');
+  const resultDiv = document.getElementById('aiResult');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>润色中...';
+  resultDiv.classList.remove('open');
+
+  const prompt = `You are an IELTS Speaking Part 2 coach. A Chinese student wrote the following answer idea in Chinese. Please rewrite it into a natural, fluent English spoken answer of about 150-180 words, at approximately Band 7 level. 
+
+Requirements:
+- Use natural spoken English, not written/academic style
+- Include 2-3 advanced collocations or idioms appropriate for Band 7
+- Include at least one complex grammatical structure (conditional, relative clause, or cleft sentence)
+- Keep the tone conversational and personal
+- Output ONLY the polished English answer, no explanations
+
+Chinese input: ${input}`;
+
+  try {
+    let response;
+    if (settings.provider === 'gemini') {
+      response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${settings.key}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.8, maxOutputTokens: 500 }
+        })
+      });
+      const data = await response.json();
+      if (data.error) throw new Error(data.error.message);
+      resultDiv.textContent = data.candidates[0].content.parts[0].text.trim();
+    } else {
+      response = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${settings.key}`
+        },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.8,
+          max_tokens: 500
+        })
+      });
+      const data = await response.json();
+      if (data.error) throw new Error(data.error.message);
+      resultDiv.textContent = data.choices[0].message.content.trim();
+    }
+
+    resultDiv.classList.add('open');
+    document.getElementById('btnSavePolished').style.display = '';
+    document.getElementById('btnSavePolished').dataset.polished = resultDiv.textContent;
+  } catch(e) {
+    alert('润色失败: ' + e.message + '\n\n请检查 API Key 是否正确，以及网络连接。');
+    resultDiv.classList.remove('open');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '✨ 润色为英文故事';
+  }
+}
+
+function savePolishedStory() {
+  const text = document.getElementById('btnSavePolished').dataset.polished;
+  if (!text) return;
+
+  const catMap = { people:'人物', object:'事物', event:'事件', place:'地点' };
+  const category = currentCard ? currentCard.category : 'event';
+  const titleCn = currentCard ? currentCard.topic_cn : 'AI润色素材';
+  const titleEn = currentCard ? currentCard.topic_en : 'AI polished story';
+
+  // Extract key phrases (words/phrases that look like collocations)
+  const words = text.split(/\s+/);
+  const keyPhrases = words.filter(w => w.length > 6 && /^[A-Z]/.test(w)).slice(0, 5);
+
+  openAddStoryModal({
+    category: category,
+    title_cn: titleCn + '(AI)',
+    title_en: titleEn + ' (AI)',
+    summary: text.split('.')[0].trim() + '.',
+    key_phrases: keyPhrases.length > 0 ? keyPhrases : ['polished by AI'],
+    vocab: {}
+  });
+}
+
+// ============ PRACTICE HISTORY ============
+function saveToHistory() {
+  if (!currentCard) {
+    console.warn('saveToHistory: no currentCard, cannot save');
+    return;
+  }
+
+  const transcript = document.getElementById('notes').value.trim();
+
+  const entry = {
+    id: Date.now(),
+    date: new Date().toLocaleString('zh-CN'),
+    cardId: currentCard.id,
+    cardTopic: currentCard.topic_en,
+    cardTopicCn: currentCard.topic_cn,
+    category: currentCard.category,
+    transcript: transcript,
+    wordCount: transcript.split(/\s+/).length
+  };
+
+  const history = loadHistory();
+  history.unshift(entry);
+  if (history.length > 50) history.length = 50;
+  localStorage.setItem('ielts_speaking_history', JSON.stringify(history));
+
+  document.getElementById('feedbackPanel').style.display = 'block';
+  renderHistory();
+}
+
+function loadHistory() {
+  try {
+    return JSON.parse(localStorage.getItem('ielts_speaking_history')) || [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function renderHistory() {
+  const history = loadHistory();
+  const container = document.getElementById('historyList');
+  const catMap = { people:'人物', object:'事物', event:'事件', place:'地点' };
+
+  if (history.length === 0) {
+    container.innerHTML = '<p style="font-size:13px;color:var(--muted);text-align:center;padding:20px;">暂无练习记录</p>';
+    return;
+  }
+
+  container.innerHTML = history.map((h, i) =>
+    '<div class="history-item" onclick="showHistoryDetail(' + h.id + ')">' +
+    '<div class="hi-date">' + h.date + ' · ' + (catMap[h.category] || '') + '</div>' +
+    '<div class="hi-topic">' + h.cardTopicCn + ' <span style="font-size:11px;color:var(--muted);">' + h.cardTopic + '</span></div>' +
+    '<div class="hi-meta">' + h.wordCount + ' 词' +
+    '</div></div>'
+  ).join('');
+}
+
+function showHistoryDetail(id) {
+  const history = loadHistory();
+  const entry = history.find(h => h.id === id);
+  if (!entry) return;
+
+  const detail = document.getElementById('historyDetail');
+
+  detail.innerHTML =
+    '<div style="border-top:2px solid var(--accent);padding-top:12px;">' +
+    '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+    '<strong>' + entry.cardTopicCn + '</strong>' +
+    '<button class="btn btn-outline btn-sm" onclick="event.stopPropagation();deleteHistoryItem(' + entry.id + ')" style="color:var(--danger);border-color:var(--danger);">删除</button>' +
+    '</div>' +
+    '<p style="font-size:12px;color:var(--muted);margin-top:4px;">' + entry.date + ' · ' + entry.wordCount + ' 词</p>' +
+    '<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">' +
+    '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();upgradeToStory(' + entry.id + ')">⬆️ 升级为素材</button>' +
+    '</div>' +
+    '<div class="history-transcript">' + escapeHtml(entry.transcript) + '</div>' +
+    '</div>';
+  detail.classList.add('open');
+}
+
+function deleteHistoryItem(id) {
+  let history = loadHistory();
+  history = history.filter(h => h.id !== id);
+  localStorage.setItem('ielts_speaking_history', JSON.stringify(history));
+  document.getElementById('historyDetail').classList.remove('open');
+  document.getElementById('historyDetail').innerHTML = '';
+  renderHistory();
+}
+
+function clearHistory() {
+  if (confirm('确定要清空所有练习记录吗？此操作不可撤销。')) {
+    localStorage.removeItem('ielts_speaking_history');
+    document.getElementById('historyDetail').classList.remove('open');
+    document.getElementById('historyDetail').innerHTML = '';
+    renderHistory();
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ============ FEEDBACK TABS ============
+document.addEventListener('click', function(e) {
+  const tab = e.target.closest('.fb-tab');
+  if (!tab) return;
+  const fbId = tab.dataset.fb;
+  document.querySelectorAll('.fb-tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active');
+  document.querySelectorAll('.fb-tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('fb-' + fbId).classList.add('active');
+  if (fbId === 'history') renderHistory();
+});
+
+// ============ KEYBOARD SHORTCUTS ============
+document.addEventListener('keydown', function(e) {
+  if (e.target.tagName === 'TEXTAREA') return;
+  switch(e.key.toLowerCase()) {
+    case 'd': drawCard(); break;
+    case '1': startPrep(); break;
+    case '2': startSpeaking(); break;
+    case 's': stopTimer(); break;
+    case 'escape': closeStoryLibrary(); break;
+  }
+});
+
+// ============ KEYBOARD HINTS ============
+document.addEventListener('keydown', function(e) {
+  if (e.key === '?' && e.target.tagName !== 'TEXTAREA') {
+    alert('⌨️ 快捷键:\n\nD — 随机抽题\n1 — 开始准备 (1:00)\n2 — 开始作答 (2:00)\nS — 停止计时\nEsc — 关闭弹窗\n? — 显示此提示');
+  }
+});
+
+// ============ STORY SHOWCASE ============
+let showcaseCategory = 'all';
+
+function renderShowcase(cat) {
+  showcaseCategory = cat || 'all';
+  const container = document.getElementById('showcaseList');
+  const catMap = { people:'人物', object:'事物', event:'事件', place:'地点' };
+  const badgeClass = { people:'badge-people', object:'badge-object', event:'badge-event', place:'badge-place' };
+
+  let filtered = stories;
+  if (showcaseCategory !== 'all') {
+    filtered = stories.filter(s => s.category === showcaseCategory);
+  }
+
+  container.innerHTML = filtered.map((s, i) => {
+    const phrases = (s.key_phrases || []).map(p => '<span class="phrase-tag">' + p + '</span>').join('');
+    const vocab = s.vocab && Object.keys(s.vocab).length > 0
+      ? Object.entries(s.vocab).map(([k,v]) => '<div class="vocab-item"><span class="en">' + k + '</span><span class="cn">' + v + '</span></div>').join('')
+      : '';
+    const scoring = s.scoring
+      ? '<div class="scoring-grid">' +
+        ['fc','lr','gra','p'].map(function(dim) {
+          var dimName = { fc:'Fluency & Coherence', lr:'Lexical Resource', gra:'Grammatical Range', p:'Pronunciation' };
+          var raw = s.scoring[dim] || '-';
+          var parts = raw.split(' | ');
+          var score = parts[0];
+          var detail = parts.slice(1).join(' | ');
+          return '<div class="scoring-item"><div class="dim">' + dimName[dim] + '</div><div class="score">' + score + '</div>' +
+            (detail ? '<div class="detail">' + detail + '</div>' : '') +
+            '</div>';
+        }).join('') +
+        '</div>'
+      : '';
+
+    return '<div class="story-card" id="sc_' + s.id + '">' +
+      '<div class="story-card-header">' +
+        '<div style="flex:1;">' +
+          '<div class="story-card-title">' + s.title_cn + '</div>' +
+          '<div class="story-card-sub">' + s.title_en + '</div>' +
+        '</div>' +
+        '<span class="story-card-badge ' + (badgeClass[s.category] || '') + '">' + (catMap[s.category] || s.category) + '</span>' +
+      '</div>' +
+      '<div class="story-card-summary">' + s.summary + '</div>' +
+      '<div class="story-card-body">' +
+        '<div class="story-template">' + s.template + '</div>' +
+        (phrases ? '<div class="phrases-box"><div class="label">🌟 好词好句</div><div>' + phrases + '</div></div>' : '') +
+        (vocab ? '<div class="vocab-box"><div class="label">📝 重点词汇</div><div class="vocab-grid">' + vocab + '</div></div>' : '') +
+        (scoring ? '<div class="scoring-box"><div class="label">🎯 IELTS 四维评分</div>' + scoring + '</div>' : '') +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  // Update tab active state
+  document.querySelectorAll('#showcaseTabs .showcase-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.cat === showcaseCategory);
+  });
+}
+
+// Card click handler (event delegation)
+document.getElementById('showcaseList').addEventListener('click', function(e) {
+  const card = e.target.closest('.story-card');
+  if (!card) return;
+  card.classList.toggle('expanded');
+});
+
+// Tab click handler
+document.getElementById('showcaseTabs').addEventListener('click', function(e) {
+  const tab = e.target.closest('.showcase-tab');
+  if (!tab) return;
+  renderShowcase(tab.dataset.cat);
+});
+
+// Initial render (deferred)
+setTimeout(() => { renderShowcase('all'); renderDirectory(); }, 100);
+
+// ============ QUESTION DIRECTORY ============
+let dirFilter = 'all';
+
+function toggleSidebar() {
+  var sidebar = document.getElementById('dirSidebar');
+  var icon = document.getElementById('sidebarToggleIcon');
+  var isCollapsed = sidebar.classList.toggle('collapsed');
+  document.body.classList.toggle('sidebar-closed', isCollapsed);
+  icon.textContent = isCollapsed ? '▶' : '◀';
+  if (!isCollapsed) renderDirectory();
+}
+
+function renderDirectory() {
+  const container = document.getElementById('dirList');
+  const catMap = { people:'人物', object:'事物', event:'事件', place:'地点' };
+  const catTagClass = { people:'tag-people', object:'tag-object', event:'tag-event', place:'tag-place' };
+
+  let cards = cueCards;
+  if (dirFilter === 'new') cards = cards.filter(c => c.tag === 'new');
+  else if (dirFilter === 'old') cards = cards.filter(c => c.tag === 'old');
+  else if (['people','object','event','place'].includes(dirFilter)) cards = cards.filter(c => c.category === dirFilter);
+
+  // Group by category
+  const order = ['people','object','event','place'];
+  const groups = {};
+  order.forEach(cat => { groups[cat] = cards.filter(c => c.category === cat); });
+
+  let html = '';
+  order.forEach(cat => {
+    const group = groups[cat];
+    if (group.length === 0) return;
+    html += '<div class="dir-group-title">' + catMap[cat] + ' (' + group.length + '题)</div>';
+    group.forEach(c => {
+      html += '<div class="dir-item" data-cid="' + c.id + '">' +
+        '<span class="tag ' + (c.tag === 'new' ? 'tag-new' : 'tag-old') + '">' + (c.tag === 'new' ? '新' : '旧') + '</span>' +
+        '<span class="tag ' + (catTagClass[cat] || '') + '">' + (catMap[cat] || cat) + '</span>' +
+        '<span class="dir-item-cn">' + c.topic_cn + '</span>' +
+        '<div class="dir-item-en">' + c.topic_en + '</div>' +
+        '</div>';
+    });
+  });
+  container.innerHTML = html;
+}
+
+// Directory filter clicks
+document.getElementById('dirFilters').addEventListener('click', function(e) {
+  const btn = e.target.closest('.dir-filter');
+  if (!btn) return;
+  dirFilter = btn.dataset.df;
+  document.querySelectorAll('#dirFilters .dir-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderDirectory();
+});
+
+// Directory item clicks → draw that card
+document.getElementById('dirList').addEventListener('click', function(e) {
+  const item = e.target.closest('.dir-item');
+  if (!item) return;
+  const cid = item.dataset.cid;
+  const card = cueCards.find(c => c.id === cid);
+  if (!card) return;
+  currentCard = card;
+  currentCategory = card.category;
+  // Update category tabs
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const activeTab = document.querySelector('.tab[data-cat="' + card.category + '"]');
+  if (activeTab) activeTab.classList.add('active');
+  pickExaminer();
+  renderCard(card);
+  stopTimer();
+  document.getElementById('timerDisplay').textContent = '1:00';
+  document.getElementById('timerLabel').textContent = '准备计时';
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressBar').classList.remove('warning');
+  document.getElementById('btnPrep').style.display = '';
+  document.getElementById('btnSpeak').style.display = 'none';
+});
+
+// ============ INIT ============
+setTimeout(() => { pickExaminer(); drawCard(); }, 300);
+</script>
+</body>
+</html>
