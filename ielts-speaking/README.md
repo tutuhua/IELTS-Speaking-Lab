@@ -20,6 +20,14 @@
 
 核心理念：**一个故事，多题复用** — 用有限的个人素材应对海量题卡，配合 AI 润色帮你打磨出 7 分水平的回答。
 
+## 预览
+
+<p align="center">
+  <img src="images/screenshot-directory.png" alt="左侧目录" width="32%">
+  <img src="images/screenshot-cue-card.png" alt="题卡练习" width="32%">
+  <img src="images/screenshot-stories.png" alt="素材学习" width="32%">
+</p>
+
 ## 为什么用它
 
 - 📋 **题库全**：55 道题卡完整覆盖人物/事物/事件/地点，标注新旧题，左侧目录一键跳转
