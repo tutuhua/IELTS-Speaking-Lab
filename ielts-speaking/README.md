@@ -32,7 +32,7 @@
 
 **自定义素材 + AI 润色：输入中文 → Gemini/DeepSeek → 7分英文故事**
 
-<img src="images/screenshot-ai-polish.png" alt="AI润色演示" width="100%">
+<img src="images/screenshot-ai-polish.png" alt="AI润色演示" width="50%">
 
 ## 为什么用它
 
